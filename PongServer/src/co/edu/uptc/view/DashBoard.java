@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 
 import java.awt.BorderLayout;
 
+import co.edu.uptc.Utils.MyUtils;
 import co.edu.uptc.Utils.Values;
 import co.edu.uptc.presenter.ContractServer;
 import co.edu.uptc.presenter.ContractServer.IPresenter;
@@ -32,6 +33,21 @@ public class DashBoard extends JFrame implements ContractServer.IView {
 
     public void run(){
         this.setVisible(true);
+        threadPainted();
+    }
+
+    public void threadPainted(){
+        Thread threadPainted = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    myPanel.setBall(presenter.getBall());
+                    myPanel.repaint();
+                    MyUtils.sleep(100);
+                }
+            }
+        });
+        threadPainted.start();
     }
 
     @Override

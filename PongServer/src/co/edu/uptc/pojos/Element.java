@@ -1,5 +1,7 @@
 package co.edu.uptc.pojos;
 
+import java.awt.Color;
+
 public class Element {
     private int x;
     private int y;
@@ -8,6 +10,7 @@ public class Element {
     private int type;
     private int speed;
     private boolean isActive;
+    private Color color;
     public int getX() {
         return x;
     }
@@ -50,5 +53,12 @@ public class Element {
     public void setActive(boolean isActive) {
         this.isActive = isActive;
     }
+    public Color getColor() {
+        return color;
+    }
+    public void setColor(Color color) {
+        this.color = color;
+    }
+    
     
 }

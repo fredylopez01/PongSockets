@@ -1,6 +1,7 @@
 package co.edu.uptc.presenter;
 
 import co.edu.uptc.model.ManagerModel;
+import co.edu.uptc.pojos.Element;
 import co.edu.uptc.presenter.ContractServer.IModel;
 import co.edu.uptc.presenter.ContractServer.IView;
 import co.edu.uptc.view.DashBoard;
@@ -36,7 +37,20 @@ public class ManagerPresenter implements ContractServer.IPresenter {
     public void run() {
         makeMVP();
         view.run();
-        view.run();
+        model.run();
+    }
+
+    @Override
+    public Element getBall() {
+        return model.getBall();
+    }
+
+    public ContractServer.IModel getModel() {
+        return model;
+    }
+
+    public ContractServer.IView getView() {
+        return view;
     }
 
 }

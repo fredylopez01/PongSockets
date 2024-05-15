@@ -1,5 +1,7 @@
 package co.edu.uptc.model;
 
+import java.awt.Color;
+
 import co.edu.uptc.Utils.Values;
 import co.edu.uptc.pojos.DirectionEnum;
 import co.edu.uptc.pojos.Element;
@@ -22,6 +24,7 @@ public class ManagerBall {
         this.element.setType((int)(Math.random()*5));
         this.element.setSpeed((int)(Math.random()*(30-3+1)+3));
         this.element.setActive(true);
+        this.element.setColor(new Color(0xefb219));
     }
     public void direction(){
         int directionR = (int)(Math.random()*3);
@@ -52,26 +55,26 @@ public class ManagerBall {
         }
     }
     public void down(){
-        if(element.getY()+element.getHeight()>=Values.heightWindow){
+        if(element.getY()+element.getSpeed()*3.5>Values.heightWindow){
             verticalDirection=DirectionEnum.UP;
         }
         element.setY(element.getY()+element.getSpeed());
     }
     public void up(){
-        if(element.getY()-element.getHeight()/2<=0){
+        if(element.getY()-element.getSpeed()<=0){
             verticalDirection=DirectionEnum.DOWN;
         }
         element.setY(element.getY()-element.getSpeed());
     }
     public void left(){
-        if(element.getX()-element.getWidth()/2<=0-element.getWidth()){
-            horizontalDirection = DirectionEnum.RIGHT;
+        if(element.getX()-element.getSpeed()<=0-element.getWidth()){
+            element.setX(Values.widthWindow);
         }
         element.setX(element.getX()-element.getSpeed());
     }
     public void right(){
-        if(element.getX()+element.getWidth()/2>=Values.widthWindow){
-            horizontalDirection = DirectionEnum.LEFT;
+        if(element.getX()+element.getSpeed()>=Values.widthWindow){
+            element.setX(0);
         }
         element.setX(element.getX()+element.getSpeed());
     }
