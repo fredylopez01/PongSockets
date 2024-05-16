@@ -1,9 +1,13 @@
 package co.edu.uptc.view.DashBoard;
 
 import javax.swing.*;
+
+import co.edu.uptc.pojos.Element;
+
 import java.awt.*;
 
 public class PingPongTable extends JPanel {
+    private Element ball;
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -20,6 +24,18 @@ public class PingPongTable extends JPanel {
         g.fillRect(0, this.getHeight()/2, this.getWidth(), 5);
 
         g.fillRect(0, this.getHeight()-40, this.getWidth(), 10);
+
+        if(ball!=null){
+            g.setColor(ball.getColor());
+            g.fillOval(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
+        }
     }
-   
+    
+    public Element getBall() {
+        return ball;
+    }
+
+    public void setBall(Element ball) {
+        this.ball = ball;
+    }
 }

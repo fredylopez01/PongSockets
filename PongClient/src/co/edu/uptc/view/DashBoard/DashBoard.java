@@ -1,6 +1,8 @@
 package co.edu.uptc.view.DashBoard;
 
 import javax.swing.JFrame;
+
+import co.edu.uptc.Utils.MyUtils;
 import co.edu.uptc.presenter.ContractUser;
 import co.edu.uptc.presenter.ContractUser.IPresenter;
 import java.awt.BorderLayout;
@@ -21,6 +23,20 @@ public class DashBoard extends JFrame implements ContractUser.IView {
         pingPongTable = new PingPongTable();
         this.add(pingPongTable);
         
+    }
+
+    public void threadPainted(){
+        Thread threadPainted = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    pingPongTable.setBall(presenter.getBall());
+                    pingPongTable.repaint();
+                    MyUtils.sleep(100);
+                }
+            }
+        });
+        threadPainted.start();
     }
 
     @Override
