@@ -1,8 +1,9 @@
 package co.edu.uptc.pojos;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public class Element {
+public class Element implements Serializable {
     private int x;
     private int y;
     private int width;
