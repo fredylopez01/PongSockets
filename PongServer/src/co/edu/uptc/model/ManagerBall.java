@@ -69,20 +69,22 @@ public class ManagerBall {
     public void left(){
         if(element.getX()-element.getSpeed()<=0-element.getWidth()){
             element.setX(Values.widthWindow);
+            this.setIsOnScreen(false);
         }
         element.setX(element.getX()-element.getSpeed());
     }
     public void right(){
         if(element.getX()+element.getSpeed()>=Values.widthWindow){
             element.setX(0);
+            this.setIsOnScreen(false);
         }
         element.setX(element.getX()+element.getSpeed());
     }
-    public boolean isActive(){
-        return element.isActive();
+    public boolean isOnScreen(){
+        return element.isOnScreen();
     }
-    public void setActive(boolean isActive){
-        element.setActive(isActive);
+    public void setIsOnScreen(boolean isOnScreen){
+        element.setActive(isOnScreen);
     }
     public void stopThread(){
         element.setActive(false);
@@ -90,5 +92,11 @@ public class ManagerBall {
     }
     public Element getElement(){
         return element;
+    }
+    public DirectionEnum getHorizontalDirection() {
+        return horizontalDirection;
+    }
+    public void setHorizontalDirection(DirectionEnum horizontalDirection) {
+        this.horizontalDirection = horizontalDirection;
     }
 }

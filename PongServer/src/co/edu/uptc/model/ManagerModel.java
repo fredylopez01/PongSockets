@@ -11,6 +11,7 @@ import java.util.List;
 
 import co.edu.uptc.Utils.MyUtils;
 import co.edu.uptc.Utils.Values;
+import co.edu.uptc.pojos.DirectionEnum;
 import co.edu.uptc.pojos.Element;
 import co.edu.uptc.presenter.ContractServer;
 import co.edu.uptc.presenter.ContractServer.IPresenter;
@@ -44,12 +45,28 @@ public class ManagerModel implements ContractServer.IModel {
             public void run() {
                 while (true) {
                     managerBall.move();
+                    updateScreen();
+                    try {
+                        sendBall();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     MyUtils.sleep(100);
                 }
             }
             
         });
         threadServer.start();
+    }
+
+    public void updateScreen(){
+        if(!managerBall.isOnScreen()){
+            if(managerBall.getHorizontalDirection()==DirectionEnum.LEFT){
+                ballPosition--;
+            } else {
+                ballPosition++;
+            }
+        }
     }
 
     public void threadServerSocket(){
@@ -59,9 +76,6 @@ public class ManagerModel implements ContractServer.IModel {
                 while (true) {
                     try{
                         receive();
-                        System.out.println("yes");
-                        
-                        sendBall();
                         MyUtils.sleep(100);
                     } catch(ClassNotFoundException | IOException e){
                         e.printStackTrace();
