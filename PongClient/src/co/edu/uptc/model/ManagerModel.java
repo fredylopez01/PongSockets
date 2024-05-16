@@ -13,6 +13,7 @@ import co.edu.uptc.presenter.ContractUser.IPresenter;
 
 public class ManagerModel implements ContractUser.IModel {
     private ContractUser.IPresenter presenter;
+    private String ipAddres;
     private Element ball;
     private Socket user;
 
@@ -23,7 +24,7 @@ public class ManagerModel implements ContractUser.IModel {
     }
     public void conect(){
         try {
-            user = new Socket("192.168.1.191", 9999);
+            user = new Socket(ipAddres, 9999);
             ObjectOutputStream output = new ObjectOutputStream(user.getOutputStream());
             output.writeObject("conectar");
             output.close();
@@ -68,6 +69,10 @@ public class ManagerModel implements ContractUser.IModel {
     }
     public ContractUser.IPresenter getPresenter() {
         return presenter;
+    }
+    @Override
+    public void setIpAdrres(String ipAddress) {
+        this.ipAddres = ipAddress;
     }
     @Override
     public Element getBall() {

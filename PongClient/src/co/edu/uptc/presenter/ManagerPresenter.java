@@ -14,8 +14,11 @@ public class ManagerPresenter implements ContractUser.IPresenter {
     @Override
     public void run() {
         makeMVP();
-        model.run();
         view.run();
+    }
+    @Override
+    public void start(){
+        model.run();
     }
 
     public void makeMVP() {
@@ -30,6 +33,11 @@ public class ManagerPresenter implements ContractUser.IPresenter {
     @Override
     public Element getBall() {
         return model.getBall();
+    }
+
+    @Override
+    public void setIpAdrres(String ipAddress) {
+        model.setIpAdrres(ipAddress);
     }
 
     @Override
