@@ -1,12 +1,12 @@
 package co.edu.uptc.view.DashBoard;
 
 import javax.swing.JFrame;
-import co.edu.uptc.presenter.ContractPlay;
-import co.edu.uptc.presenter.ContractPlay.Presenter;
+import co.edu.uptc.presenter.ContractUser;
+import co.edu.uptc.presenter.ContractUser.IPresenter;
 import java.awt.BorderLayout;
 
-public class DashBoard extends JFrame implements ContractPlay.View {
-    private ContractPlay.Presenter presenter;
+public class DashBoard extends JFrame implements ContractUser.IView {
+    private ContractUser.IPresenter presenter;
     private PingPongTable pingPongTable;
 
     public DashBoard() {
@@ -23,17 +23,17 @@ public class DashBoard extends JFrame implements ContractPlay.View {
         
     }
 
-
-    @Override
-    public void setPresenter(Presenter presenter) {
-        this.presenter = presenter;
-    }
-
     @Override
     public void run() {
         setVisible(true);
     }
-    public ContractPlay.Presenter getPresenter() {
+
+    @Override
+    public void setPresenter(IPresenter iPresenter) {
+        this.presenter = iPresenter;
+    }
+
+    public ContractUser.IPresenter getPresenter() {
         return presenter;
     }
 
