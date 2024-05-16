@@ -43,7 +43,7 @@ public class DashBoard extends JFrame implements ContractServer.IView {
                 while (true) {
                     myPanel.setBall(presenter.getBall());
                     myPanel.repaint();
-                    MyUtils.sleep(100);
+                    MyUtils.sleep(15);
                 }
             }
         });

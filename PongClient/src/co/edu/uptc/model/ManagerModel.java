@@ -23,7 +23,7 @@ public class ManagerModel implements ContractUser.IModel {
     }
     public void conect(){
         try {
-            user = new Socket("192.168.163.168", 9999);
+            user = new Socket("192.168.1.191", 9999);
             ObjectOutputStream output = new ObjectOutputStream(user.getOutputStream());
             output.writeObject("conectar");
             output.close();
@@ -41,7 +41,7 @@ public class ManagerModel implements ContractUser.IModel {
 				while(true) {
 					try {
 						receiveBall();
-						Thread.sleep(3000);
+						Thread.sleep(50);
 					} catch (ClassNotFoundException | IOException | InterruptedException e) {
 						e.printStackTrace();
 					}

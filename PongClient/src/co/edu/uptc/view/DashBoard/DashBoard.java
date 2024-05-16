@@ -22,7 +22,6 @@ public class DashBoard extends JFrame implements ContractUser.IView {
         setBounds(1, 1, 850, 600);
         pingPongTable = new PingPongTable();
         this.add(pingPongTable);
-        
     }
 
     public void threadPainted(){
@@ -32,7 +31,7 @@ public class DashBoard extends JFrame implements ContractUser.IView {
                 while (true) {
                     pingPongTable.setBall(presenter.getBall());
                     pingPongTable.repaint();
-                    MyUtils.sleep(100);
+                    MyUtils.sleep(15);
                 }
             }
         });
@@ -42,6 +41,7 @@ public class DashBoard extends JFrame implements ContractUser.IView {
     @Override
     public void run() {
         setVisible(true);
+        threadPainted();
     }
 
     @Override

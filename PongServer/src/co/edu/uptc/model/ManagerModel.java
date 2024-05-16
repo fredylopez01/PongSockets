@@ -26,7 +26,7 @@ public class ManagerModel implements ContractServer.IModel {
     public ManagerModel(){
         managerBall = new ManagerBall();
         try {
-            serverSocket = new ServerSocket(Values.serverPort);
+            serverSocket = new ServerSocket(9999);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,9 +49,10 @@ public class ManagerModel implements ContractServer.IModel {
                     try {
                         sendBall();
                     } catch (IOException e) {
+                        System.out.println(e.getMessage());
                         e.printStackTrace();
                     }
-                    MyUtils.sleep(100);
+                    MyUtils.sleep(60);
                 }
             }
             
@@ -76,7 +77,7 @@ public class ManagerModel implements ContractServer.IModel {
                 while (true) {
                     try{
                         receive();
-                        MyUtils.sleep(100);
+                        MyUtils.sleep(1000);
                     } catch(ClassNotFoundException | IOException e){
                         e.printStackTrace();
                     }
@@ -113,21 +114,22 @@ public class ManagerModel implements ContractServer.IModel {
 
     public void sendBall() throws IOException{
         Object sendedObject = null;
-        if(ballPosition < 0){
-            ballPosition = 0;
-            sendedObject = "Perdio";
-        } else if(ballPosition==users.size()){
-            ballPosition = users.size()-1;
-            sendedObject = "Perdio";
-        } else{
-            sendedObject = this.getBall();
+        // if(ballPosition < 0){
+        //     ballPosition = 0;
+        //     sendedObject = "Perdio";
+        // } else if(ballPosition==users.size()){
+        //     ballPosition = users.size()-1;
+        //     sendedObject = "Perdio";
+        // } else{
+        //     sendedObject = this.getBall();
+        // }
+        for (Socket userBall : users) {
+            Socket sendedSocket = new Socket(userBall.getInetAddress(), 9090);
+            ObjectOutputStream output = new ObjectOutputStream(sendedSocket.getOutputStream());
+            output.writeObject(this.getBall());
+            output.close();
+            sendedSocket.close();
         }
-        Socket userBall = users.get(ballPosition);
-        Socket sendedSocket = new Socket(userBall.getInetAddress(), 9090);
-        ObjectOutputStream output = new ObjectOutputStream(sendedSocket.getOutputStream());
-        output.writeObject(sendedObject);
-        output.close();
-        sendedSocket.close();
     }
 
     @Override
