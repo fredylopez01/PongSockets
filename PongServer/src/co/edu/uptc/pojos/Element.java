@@ -1,15 +1,16 @@
 package co.edu.uptc.pojos;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public class Element {
+public class Element implements Serializable {
     private int x;
     private int y;
     private int width;
     private int height;
     private int type;
     private int speed;
-    private boolean isActive;
+    private boolean isOnScreen;
     private Color color;
     public int getX() {
         return x;
@@ -47,11 +48,11 @@ public class Element {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
-    public boolean isActive() {
-        return isActive;
+    public boolean isOnScreen() {
+        return isOnScreen;
     }
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(boolean isOnScreen) {
+        this.isOnScreen = isOnScreen;
     }
     public Color getColor() {
         return color;
