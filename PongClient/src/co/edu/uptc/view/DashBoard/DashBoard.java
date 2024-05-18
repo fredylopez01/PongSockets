@@ -2,6 +2,7 @@ package co.edu.uptc.view.DashBoard;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import co.edu.uptc.Utils.MyUtils;
 import co.edu.uptc.presenter.ContractUser;
@@ -17,6 +18,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
      private LoggingPanel loggingPanel;
     private JPanel cards;
     private CardLayout cardLayout;
+    private LoadPanel loadPanel;
 
     public DashBoard() {
         this.setLayout(new BorderLayout());
@@ -32,8 +34,10 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
         cards.setLayout(cardLayout);
         pingPongTable = new PingPongTable();
         loggingPanel = new LoggingPanel(this);
+        loadPanel = new LoadPanel();
         cards.add(loggingPanel, "LoggingPanel");
         cards.add(pingPongTable, "PingPongTable");
+        cards.add(loadPanel, "LoadPanel");
         this.add(cards, BorderLayout.CENTER);
     }
 
@@ -62,6 +66,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
         String comand = e.getActionCommand();
         switch (comand) {
             case "continue" -> login();
+            case "load" -> loadEfect();
             default -> System.out.println(comand);
         }
     }
@@ -72,8 +77,17 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
 
     public void login(){
         setIpAdress();
+        showPanel("LoadPanel");
+        Timer timer = new Timer(3000, this);
+        timer.setActionCommand("load");
+        timer.setRepeats(false); 
+        timer.start();
+    }
+
+    public void loadEfect(){
         presenter.start();
         showPanel("PingPongTable");
+        threadPainted();
     }
 
     public void setIpAdress(){
