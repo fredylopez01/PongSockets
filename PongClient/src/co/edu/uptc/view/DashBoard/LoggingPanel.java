@@ -33,11 +33,12 @@ public class LoggingPanel extends JPanel{
         lblIP = new JLabel("IP Adress");
         lblIP.setFont(font);
         txtIP = new JTextField();
-   
+
         btnContinue = new JButton("Continue");
         btnContinue.setActionCommand("continue");
         btnContinue.addActionListener(listener);
         btnContinue.setFont(font);
+
     }
 
     private void addComponents() {
@@ -46,9 +47,8 @@ public class LoggingPanel extends JPanel{
         this.add(lblIP, gbc);
 
         gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL; 
         this.add(txtIP, gbc);
-
+      
         gbc.gridy = 2;
         this.add(btnContinue, gbc);
     }
