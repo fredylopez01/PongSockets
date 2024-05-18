@@ -22,6 +22,8 @@ public class ManagerModel implements ContractServer.IModel {
     private ServerSocket serverSocket;
     private List<Socket> users;
     private int ballPosition;
+    private boolean isPlaying;
+    private boolean isReceiving;
 
     public ManagerModel(){
         managerBall = new ManagerBall();
@@ -31,11 +33,11 @@ public class ManagerModel implements ContractServer.IModel {
             e.printStackTrace();
         }
         users = new ArrayList<>();
+        isReceiving = true;
     }
 
     @Override
     public void run() {
-        threadBall();
         threadServerSocket();
     }
 
@@ -43,7 +45,7 @@ public class ManagerModel implements ContractServer.IModel {
         Thread threadServer = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (isPlaying) {
                     managerBall.move();
                     updateScreen();
                     try {
@@ -74,7 +76,7 @@ public class ManagerModel implements ContractServer.IModel {
         Thread threadServer = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (isReceiving) {
                     try{
                         receive();
                         MyUtils.sleep(1000);
@@ -91,13 +93,22 @@ public class ManagerModel implements ContractServer.IModel {
     public void receive() throws ClassNotFoundException, IOException{
         Socket user = serverSocket.accept();
         addUser(user);
+        if(users.size()==1){
+            createSendSocket(user, "button");
+        }
         ObjectInputStream input = new ObjectInputStream(user.getInputStream());
         Object object = input.readObject();
         if(object instanceof String){
-            System.out.println(object);
+            if(object.equals("play")){
+                isReceiving = false;
+                isPlaying = true;
+                threadBall();
+            }
         } else if(object instanceof Element){
             System.out.println("Element");
         }
+        user.close();
+        input.close();
     }
 
     public void addUser(Socket user){
@@ -114,22 +125,27 @@ public class ManagerModel implements ContractServer.IModel {
 
     public void sendBall() throws IOException{
         Object sendedObject = null;
-        // if(ballPosition < 0){
-        //     ballPosition = 0;
-        //     sendedObject = "Perdio";
-        // } else if(ballPosition==users.size()){
-        //     ballPosition = users.size()-1;
-        //     sendedObject = "Perdio";
-        // } else{
-        //     sendedObject = this.getBall();
-        // }
-        for (Socket userBall : users) {
-            Socket sendedSocket = new Socket(userBall.getInetAddress(), 9090);
-            ObjectOutputStream output = new ObjectOutputStream(sendedSocket.getOutputStream());
-            output.writeObject(this.getBall());
-            output.close();
-            sendedSocket.close();
+        if(ballPosition < 0){
+            ballPosition = 0;
+            sendedObject = "Perdio";
+        } else if(ballPosition==users.size()){
+            ballPosition = users.size()-1;
+            sendedObject = "Perdio";
+        } else{
+            sendedObject = this.getBall();
         }
+        if(users.size()!=0){
+            Socket userBall = users.get(ballPosition);
+            createSendSocket(userBall, this.getBall());
+        }
+    }
+
+    public void createSendSocket(Socket socket, Object order) throws IOException{
+        Socket sendedSocket = new Socket(socket.getInetAddress(), 9090);
+        ObjectOutputStream output = new ObjectOutputStream(sendedSocket.getOutputStream());
+        output.writeObject(order);
+        output.close();
+        sendedSocket.close();
     }
 
     @Override
