@@ -7,6 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JOptionPane;
+
 import co.edu.uptc.pojos.Element;
 import co.edu.uptc.presenter.ContractUser;
 import co.edu.uptc.presenter.ContractUser.IPresenter;
@@ -59,6 +61,16 @@ public class ManagerModel implements ContractUser.IModel {
 		Object receive = input.readObject();
         if(receive instanceof Element){
             ball = (Element) receive;
+        } else if(receive instanceof String){
+            if(receive.equals("button")){
+                if (JOptionPane.showConfirmDialog(null, receive, "Salir", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    user = new Socket(ipAddres, 9999);
+                    ObjectOutputStream output = new ObjectOutputStream(user.getOutputStream());
+                    output.writeObject("play");
+                    output.close();
+                    user.close();
+                }
+            }
         }
 		input.close();
 		serverSocket.close();
