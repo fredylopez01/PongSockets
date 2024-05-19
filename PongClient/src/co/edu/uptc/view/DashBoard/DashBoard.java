@@ -1,5 +1,6 @@
 package co.edu.uptc.view.DashBoard;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -19,6 +20,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
     private JPanel cards;
     private CardLayout cardLayout;
     private LoadPanel loadPanel;
+    private ImageIcon icon;
 
     public DashBoard() {
         this.setLayout(new BorderLayout());
@@ -28,7 +30,9 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
     }
 
     private void initComponents() {
-        setSize(850, 600);
+        setSize(500, 400);
+        icon = new ImageIcon(getClass().getResource("../images/icon.png"));
+		setIconImage(icon.getImage());
         cards = new JPanel();
         cardLayout = new CardLayout();
         cards.setLayout(cardLayout);
@@ -65,7 +69,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
     public void actionPerformed(ActionEvent e) {
         String comand = e.getActionCommand();
         switch (comand) {
-            case "continue" -> login();
+            case "connect" -> login();
             case "load" -> loadEfect();
             default -> System.out.println(comand);
         }

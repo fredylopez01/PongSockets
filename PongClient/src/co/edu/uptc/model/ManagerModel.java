@@ -62,6 +62,7 @@ public class ManagerModel implements ContractUser.IModel {
         if(receive instanceof Element){
             ball = (Element) receive;
         } else if(receive instanceof String){
+            System.out.println(receive);
             if(receive.equals("button")){
                 if (JOptionPane.showConfirmDialog(null, receive, "Salir", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     user = new Socket(ipAddres, 9999);
