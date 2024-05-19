@@ -44,7 +44,30 @@ public class ManagerPresenter implements ContractServer.IPresenter {
     public Element getBall() {
         return model.getBall();
     }
-
+    @Override
+    public Element getRacketOne() {
+        return model.getRacketOne();
+    }
+    @Override
+    public Element getRacketTwo() {
+        return model.getRacketTwo();
+    }
+    @Override
+    public void upRacketOne() {
+        model.upRacketOne();
+    }
+    @Override
+    public void downRacketOne() {
+        model.downRacketOne();
+    }
+    @Override
+    public void upRacketTwo() {
+        model.upRacketTwo();
+    }
+    @Override
+    public void downRacketTwo() {
+        model.downRacketTwo();
+    }
     public ContractServer.IModel getModel() {
         return model;
     }
