@@ -37,8 +37,8 @@ public class ManagerModel implements ContractServer.IModel {
         isReceiving = true;
         playerRacketOne = new ManagerRacket(1);
         playerRacketTwo = new ManagerRacket(2);
-        isPlaying = true;
-        threadBall();
+        // isPlaying = true;
+        // threadBall();
     }
 
     @Override
@@ -56,11 +56,13 @@ public class ManagerModel implements ContractServer.IModel {
                     updateScreen();
                     try {
                         sendBall();
+                        createSendSocket(users.get(0), getRacketOne());
+                        createSendSocket(users.get(users.size()-1), getRacketTwo());
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                         e.printStackTrace();
                     }
-                    MyUtils.sleep(60);
+                    MyUtils.sleep(50);
                 }
             }
             
@@ -87,7 +89,7 @@ public class ManagerModel implements ContractServer.IModel {
                 while (isReceiving) {
                     try{
                         receive();
-                        MyUtils.sleep(1000);
+                        MyUtils.sleep(50);
                     } catch(ClassNotFoundException | IOException e){
                         e.printStackTrace();
                     }
@@ -101,16 +103,35 @@ public class ManagerModel implements ContractServer.IModel {
     public void receive() throws ClassNotFoundException, IOException{
         Socket user = serverSocket.accept();
         addUser(user);
-        if(users.size()==1){
-            createSendSocket(user, "button");
-        }
         ObjectInputStream input = new ObjectInputStream(user.getInputStream());
         Object object = input.readObject();
         if(object instanceof String){
-            if(object.equals("play")){
-                isReceiving = false;
-                isPlaying = true;
-                threadBall();
+            switch (object.toString()) {
+                case "conectar":
+                    if(users.size()==1){
+                        createSendSocket(user, "button");
+                    }
+                    break;
+                case "play":
+                    isPlaying = true;
+                    threadBall();
+                    break;
+                case "upRacket":
+                    if(user.getInetAddress().equals(users.get(0).getInetAddress())){
+                        upRacketOne();
+                    } else {
+                        upRacketTwo();
+                    }
+                    break;
+                case "downRacket":
+                    if(user.getInetAddress().equals(users.get(0).getInetAddress())){
+                        downRacketOne();
+                    } else {
+                        downRacketTwo();
+                    }
+                    break;
+                default:
+                    break;
             }
         } else if(object instanceof Element){
             System.out.println("Element");
@@ -178,12 +199,16 @@ public class ManagerModel implements ContractServer.IModel {
         }
     }
 
-    public void createSendSocket(Socket socket, Object order) throws IOException{
-        Socket sendedSocket = new Socket(socket.getInetAddress(), 9090);
-        ObjectOutputStream output = new ObjectOutputStream(sendedSocket.getOutputStream());
-        output.writeObject(order);
-        output.close();
-        sendedSocket.close();
+    public void createSendSocket(Socket socket, Object order) {
+        try{
+            Socket sendedSocket = new Socket(socket.getInetAddress(), 9090);
+            ObjectOutputStream output = new ObjectOutputStream(sendedSocket.getOutputStream());
+            output.writeObject(order);
+            output.close();
+            sendedSocket.close();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
     }
     public void upRacketOne(){
         playerRacketOne.up();

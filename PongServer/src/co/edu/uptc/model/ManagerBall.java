@@ -21,10 +21,10 @@ public class ManagerBall {
         this.element = new Element();
         this.element.setWidth(20);
         this.element.setHeight(20);
-        this.element.setType((int)(Math.random()*5));
         this.element.setSpeed((int)(Math.random()*(Values.maxSpeedBall-Values.minSpeBall+1)+Values.minSpeBall));
         this.element.setActive(true);
         this.element.setColor(new Color(0xefb219));
+        this.element.setType(1);
     }
     public void direction(){
         int directionR = (int)(Math.random()*3);
