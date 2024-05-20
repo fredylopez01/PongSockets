@@ -28,7 +28,7 @@ public class LoadPanel extends JPanel {
 
     public void paint(Graphics g) {
         background = new ImageIcon(getClass().getResource("/co/edu/uptc/view/images/load.gif")).getImage();
-        g.drawImage(background, 0, 0, 850, 600, this);
+        g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
         setOpaque(false);
         super.paint(g);
     }

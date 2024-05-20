@@ -21,10 +21,10 @@ public class ManagerBall {
         this.element = new Element();
         this.element.setWidth(20);
         this.element.setHeight(20);
-        this.element.setType((int)(Math.random()*5));
-        this.element.setSpeed((int)(Math.random()*(30-3+1)+3));
+        this.element.setSpeed((int)(Math.random()*(Values.maxSpeedBall-Values.minSpeBall+1)+Values.minSpeBall));
         this.element.setActive(true);
         this.element.setColor(new Color(0xefb219));
+        this.element.setType(1);
     }
     public void direction(){
         int directionR = (int)(Math.random()*3);
@@ -55,7 +55,7 @@ public class ManagerBall {
         }
     }
     public void down(){
-        if(element.getY()+element.getSpeed()*3.5>Values.heightWindow){
+        if(element.getY()+element.getSpeed()>Values.heightWindow-60){
             verticalDirection=DirectionEnum.UP;
         }
         element.setY(element.getY()+element.getSpeed());
@@ -98,5 +98,11 @@ public class ManagerBall {
     }
     public void setHorizontalDirection(DirectionEnum horizontalDirection) {
         this.horizontalDirection = horizontalDirection;
+    }
+    public void setVerticalDirection(DirectionEnum verticalDirection) {
+        this.verticalDirection = verticalDirection;
+    }
+    public DirectionEnum getVerticalDirection() {
+        return verticalDirection;
     }
 }

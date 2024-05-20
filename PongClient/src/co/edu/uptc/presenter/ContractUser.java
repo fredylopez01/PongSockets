@@ -8,7 +8,10 @@ public interface ContractUser {
         public void setPresenter(IPresenter iPresenter);
         public void run();
         public Element getBall();
+        public Element getRacket();
         public void setIpAdrres(String ipAddress);
+        public void upRacket();
+        public void downRacket();
     }
 
     public interface IView {
@@ -22,6 +25,9 @@ public interface ContractUser {
         public void run();
         public void start();
         public Element getBall();
+        public Element getRacket();
         public void setIpAdrres(String ipAddress);
+        public void upRacket();
+        public void downRacket();
     }
 }

@@ -9,12 +9,24 @@ public class ContractServer {
         public void setModel(IModel iModel);
         public void run();
         public Element getBall();
+        public Element getRacketOne();
+        public Element getRacketTwo();
+        public void upRacketOne();
+        public void downRacketOne();
+        public void upRacketTwo();
+        public void downRacketTwo();
     }
 
     public interface IModel {
         public void setPresenter(IPresenter iPresenter);
         public void run();
         public Element getBall();
+        public Element getRacketOne();
+        public Element getRacketTwo();
+        public void upRacketOne();
+        public void downRacketOne();
+        public void upRacketTwo();
+        public void downRacketTwo();
     }
 
     public interface IView {
