@@ -34,12 +34,22 @@ public class ManagerPresenter implements ContractUser.IPresenter {
     public Element getBall() {
         return model.getBall();
     }
-
+    @Override
+    public Element getRacket() {
+        return model.getRacket();
+    }
     @Override
     public void setIpAdrres(String ipAddress) {
         model.setIpAdrres(ipAddress);
     }
-
+    @Override
+    public void upRacket() {
+        model.upRacket();
+    }
+    @Override
+    public void downRacket() {
+        model.downRacket();
+    }
     @Override
     public void setView(IView view) {
         this.view = view;

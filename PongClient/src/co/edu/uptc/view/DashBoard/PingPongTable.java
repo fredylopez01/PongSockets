@@ -8,6 +8,7 @@ import java.awt.*;
 
 public class PingPongTable extends JPanel {
     private Element ball;
+    private Element racket;
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -29,13 +30,21 @@ public class PingPongTable extends JPanel {
             g.setColor(ball.getColor());
             g.fillOval(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
         }
+        if(racket!=null){
+            g.setColor(racket.getColor());
+            g.fillRect(racket.getX(), racket.getY(), racket.getWidth(), racket.getHeight());
+        }
     }
-    
     public Element getBall() {
         return ball;
     }
-
     public void setBall(Element ball) {
         this.ball = ball;
+    }
+    public Element getRacket() {
+        return racket;
+    }
+    public void setRacket(Element racket) {
+        this.racket = racket;
     }
 }

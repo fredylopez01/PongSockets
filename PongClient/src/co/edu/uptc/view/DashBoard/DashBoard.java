@@ -12,8 +12,10 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class DashBoard extends JFrame implements ContractUser.IView, ActionListener {
+public class DashBoard extends JFrame implements ContractUser.IView, ActionListener, KeyListener {
     private ContractUser.IPresenter presenter;
     private PingPongTable pingPongTable;
      private LoggingPanel loggingPanel;
@@ -31,7 +33,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
 
     private void initComponents() {
         setSize(500, 400);
-        icon = new ImageIcon(getClass().getResource("../images/icon.png"));
+        icon = new ImageIcon(getClass().getResource("/co/edu/uptc/view/images/icon.png"));
 		setIconImage(icon.getImage());
         cards = new JPanel();
         cardLayout = new CardLayout();
@@ -43,6 +45,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
         cards.add(pingPongTable, "PingPongTable");
         cards.add(loadPanel, "LoadPanel");
         this.add(cards, BorderLayout.CENTER);
+        this.addKeyListener(this);
     }
 
     @Override
@@ -57,6 +60,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
             public void run() {
                 while (true) {
                     pingPongTable.setBall(presenter.getBall());
+                    pingPongTable.setRacket(presenter.getRacket());
                     pingPongTable.repaint();
                     MyUtils.sleep(15);
                 }
@@ -92,6 +96,26 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
         presenter.start();
         showPanel("PingPongTable");
         threadPainted();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.VK_UP -> presenter.upRacket();
+            case KeyEvent.VK_DOWN -> presenter.downRacket();
+            default -> System.out.println(keyCode);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        
     }
 
     public void setIpAdress(){

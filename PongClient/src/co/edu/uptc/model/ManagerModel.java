@@ -17,6 +17,7 @@ public class ManagerModel implements ContractUser.IModel {
     private ContractUser.IPresenter presenter;
     private String ipAddres;
     private Element ball;
+    private Element racket;
     private Socket user;
 
     @Override
@@ -46,6 +47,7 @@ public class ManagerModel implements ContractUser.IModel {
 						receiveBall();
 						Thread.sleep(50);
 					} catch (ClassNotFoundException | IOException | InterruptedException e) {
+                        System.out.println(e.getMessage());
 						e.printStackTrace();
 					}
 				}
@@ -60,7 +62,12 @@ public class ManagerModel implements ContractUser.IModel {
 		ObjectInputStream input = new ObjectInputStream(receiveSocket.getInputStream());
 		Object receive = input.readObject();
         if(receive instanceof Element){
-            ball = (Element) receive;
+            Element element = (Element) receive;
+            if(element.getType() == 1){
+                ball = element;
+            } else {
+                racket = element;
+            }
         } else if(receive instanceof String){
             System.out.println(receive);
             if(receive.equals("button")){
@@ -77,6 +84,30 @@ public class ManagerModel implements ContractUser.IModel {
 		serverSocket.close();
 	}
     @Override
+    public void upRacket() {
+        try {
+            user = new Socket(ipAddres, 9999);
+            ObjectOutputStream output = new ObjectOutputStream(user.getOutputStream());
+            output.writeObject("upRacket");
+            output.close();
+            user.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void downRacket() {
+        try {
+            user = new Socket(ipAddres, 9999);
+            ObjectOutputStream output = new ObjectOutputStream(user.getOutputStream());
+            output.writeObject("downRacket");
+            output.close();
+            user.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
     public void setPresenter(IPresenter iPresenter) {
         this.presenter = iPresenter;
     }
@@ -90,6 +121,10 @@ public class ManagerModel implements ContractUser.IModel {
     @Override
     public Element getBall() {
         return ball;
+    }
+    @Override
+    public Element getRacket(){
+        return racket;
     }
 
 }
