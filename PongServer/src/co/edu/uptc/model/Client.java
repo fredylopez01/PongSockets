@@ -8,16 +8,28 @@ import java.net.Socket;
 public class Client {
     private Socket user;
     private ManagerModel game;
+    private ObjectOutputStream output;
+    private ObjectInputStream inputStream;
 
     public Client(Socket user, ManagerModel game) {
         this.user = user;
         this.game = game;
+        createObjectSteam();
+        listenThread();
+    }
+    private void createObjectSteam(){
+        try{
+            this.output = new ObjectOutputStream(user.getOutputStream());
+            this.inputStream = new ObjectInputStream(user.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void write(Object order){
         try {
-            ObjectOutputStream output = new ObjectOutputStream(user.getOutputStream());
             output.writeObject(order);
+            output.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,7 +49,6 @@ public class Client {
 
     public void listen(){
         try {
-            ObjectInputStream inputStream = new ObjectInputStream(user.getInputStream());
             String order = inputStream.readObject().toString();
             switch (order) {
                 case "play" -> game.play();
@@ -54,5 +65,8 @@ public class Client {
     }
     public void setUser(Socket user) {
         this.user = user;
+    }
+    public String getIpString(){
+        return user.getInetAddress().toString();
     }
 }

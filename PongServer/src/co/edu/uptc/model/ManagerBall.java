@@ -23,7 +23,7 @@ public class ManagerBall {
         this.element.setHeight(20);
         this.element.setSpeed((int)(Math.random()*(Values.maxSpeedBall-Values.minSpeBall+1)+Values.minSpeBall));
         this.element.setActive(true);
-        this.element.setColor(new Color(0xefb219));
+        this.element.setColor(Color.WHITE);
         this.element.setType(1);
     }
     public void direction(){

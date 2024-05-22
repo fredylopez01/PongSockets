@@ -15,14 +15,13 @@ public class MyPanel extends JPanel {
     private int currentScreen;
 
     public MyPanel(){
-        numberScreens = 1;
-        currentScreen = 1;
+
     }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         int y = (Values.heightWindow/2)-(Values.heightWindow/2)/numberScreens;
-        g.drawRect(0, y, Values.widthWindow, Values.heightWindow/numberScreens-40);
+        g.fillRect(0, y, Values.widthWindow-16, Values.heightWindow/numberScreens-(39/numberScreens));
         if (ball != null) {
             g.setColor(ball.getColor());
             int xS = 0;
@@ -34,8 +33,8 @@ public class MyPanel extends JPanel {
             xS = (Values.widthWindow/numberScreens)*(currentScreen-1);
             g.fillOval(xS+(ball.getX()/numberScreens), y+ball.getY()/numberScreens, ball.getWidth()/numberScreens, ball.getHeight()/numberScreens);            
         }
-        for(int i = 0; i<numberScreens; i++){
-            g.drawLine((Values.widthWindow/numberScreens)*i, 0, (Values.widthWindow/numberScreens)*i, Values.heightWindow);
+        for(int i = 0; i<=numberScreens; i++){
+            g.drawLine(((Values.widthWindow-16)/numberScreens)*i, y, ((Values.widthWindow-16)/numberScreens)*i, y+Values.heightWindow/numberScreens-(39/numberScreens));
         }
         if (racketOne != null) {
             g.setColor(racketOne.getColor());
@@ -43,7 +42,7 @@ public class MyPanel extends JPanel {
         }
         if (racketTwo != null) {
             g.setColor(racketTwo.getColor());
-            g.fillRect(racketTwo.getX(), y+racketTwo.getY()/numberScreens, racketTwo.getWidth()/numberScreens, racketTwo.getHeight()/numberScreens);
+            g.fillRect(racketTwo.getX()+racketTwo.getWidth()-racketTwo.getWidth()/numberScreens, y+racketTwo.getY()/numberScreens, racketTwo.getWidth()/numberScreens, racketTwo.getHeight()/numberScreens);
         }
     }
     public Element getBall() {

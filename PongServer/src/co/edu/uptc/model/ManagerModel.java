@@ -15,8 +15,8 @@ import co.edu.uptc.presenter.ContractServer.IPresenter;
 public class ManagerModel implements ContractServer.IModel {
     private ContractServer.IPresenter presenter;
     private ManagerBall managerBall;
-    private ManagerRacket playerRacketOne;
-    private ManagerRacket playerRacketTwo;
+    private ManagerRacket racketOne;
+    private ManagerRacket racketTwo;
     private ServerSocket serverSocket;
     private List<Client> users;
     private int ballPosition;
@@ -32,8 +32,8 @@ public class ManagerModel implements ContractServer.IModel {
         }
         users = new ArrayList<>();
         isReceiving = true;
-        playerRacketOne = new ManagerRacket(1);
-        playerRacketTwo = new ManagerRacket(2);
+        racketOne = new ManagerRacket(1);
+        racketTwo = new ManagerRacket(2);
         // isPlaying = true;
         // threadBall();
     }
@@ -49,8 +49,7 @@ public class ManagerModel implements ContractServer.IModel {
             public void run() {
                 while (isReceiving) {
                     try{
-                        receive();
-                        MyUtils.sleep(50);
+                        acceptClient();
                     } catch(ClassNotFoundException | IOException e){
                         e.printStackTrace();
                     }
@@ -61,10 +60,10 @@ public class ManagerModel implements ContractServer.IModel {
         threadServer.start();
     }
 
-    public void receive() throws ClassNotFoundException, IOException{
+    public void acceptClient() throws ClassNotFoundException, IOException{
         Client user = new Client(serverSocket.accept(), this);
-        addUser(user);
-        user.listenThread();
+        users.add(user);
+        // addUser(user);
         if(users.size()==1){
             user.write( new String("button"));
             user.write(getRacketOne());
@@ -74,7 +73,7 @@ public class ManagerModel implements ContractServer.IModel {
     public void addUser(Client user){
         boolean is = false;
         for (Client client : users) {
-            if(client.getUser().getInetAddress().equals(user.getUser().getInetAddress())){
+            if(client.getIpString().equals(user.getIpString())){
                 is=true;
             }
         }
@@ -167,20 +166,20 @@ public class ManagerModel implements ContractServer.IModel {
         }
     }
     public void upRacket(String userIp){
-        if(userIp.equals(users.get(0).getUser().getInetAddress().toString())){
-            playerRacketOne.up();
+        if(userIp.equals(users.get(0).getIpString())){
+            racketOne.up();
             users.get(0).write(getRacketOne());
         } else {
-            playerRacketTwo.up();
+            racketTwo.up();
             users.get(users.size()-1).write(getRacketTwo());
         }
     }
     public void downRacket(String userIp){
-        if(userIp.equals(users.get(0).getUser().getInetAddress().toString())){
-            playerRacketOne.down();
+        if(userIp.equals(users.get(0).getIpString())){
+            racketOne.down();
             users.get(0).write(getRacketOne());
         } else {
-            playerRacketTwo.down();
+            racketTwo.down();
             users.get(users.size()-1).write(getRacketTwo());
         }
     }
@@ -194,11 +193,11 @@ public class ManagerModel implements ContractServer.IModel {
     }
     @Override
     public Element getRacketOne() {
-        return playerRacketOne.getRacket();
+        return racketOne.getRacket();
     }
     @Override
     public Element getRacketTwo() {
-        return playerRacketTwo.getRacket();
+        return racketTwo.getRacket();
     }
     @Override
     public int getCurrentScreen() {

@@ -17,7 +17,7 @@ public class ManagerRacket {
         racket.setWidth(Values.racketWidth);
         racket.setHeight(Values.racketHeight);
         racket.setType(2);
-        racket.setColor(new Color(0x27CF2E));
+        racket.setColor(Color.WHITE);
     }
     public void racketPosition(int player){
         if(player == 1){
