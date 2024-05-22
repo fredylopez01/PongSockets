@@ -3,7 +3,6 @@ package co.edu.uptc.model;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -19,6 +18,8 @@ public class ManagerModel implements ContractUser.IModel {
     private Element ball;
     private Element racket;
     private Socket user;
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
 
     @Override
     public void run() {
@@ -28,10 +29,8 @@ public class ManagerModel implements ContractUser.IModel {
     public void conect(){
         try {
             user = new Socket(ipAddres, 9999);
-            ObjectOutputStream output = new ObjectOutputStream(user.getOutputStream());
-            output.writeObject("conectar");
-            output.close();
-            user.close();
+            output = new ObjectOutputStream(user.getOutputStream());
+            output.writeObject(new String("conectar"));
         } catch (UnknownHostException e1) {
             e1.printStackTrace();
         } catch (IOException e1) {
@@ -57,9 +56,7 @@ public class ManagerModel implements ContractUser.IModel {
 	}
 	
 	public void receiveBall() throws IOException, ClassNotFoundException {
-		ServerSocket serverSocket = new ServerSocket(9090);
-		Socket receiveSocket = serverSocket.accept();
-		ObjectInputStream input = new ObjectInputStream(receiveSocket.getInputStream());
+        input = new ObjectInputStream(user.getInputStream());
 		Object receive = input.readObject();
         if(receive instanceof Element){
             Element element = (Element) receive;
@@ -71,26 +68,21 @@ public class ManagerModel implements ContractUser.IModel {
         } else if(receive instanceof String){
             System.out.println(receive);
             if(receive.equals("button")){
-                if (JOptionPane.showConfirmDialog(null, receive, "Salir", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    user = new Socket(ipAddres, 9999);
-                    ObjectOutputStream output = new ObjectOutputStream(user.getOutputStream());
-                    output.writeObject("play");
-                    output.close();
-                    user.close();
-                }
+                createButtonPlay();
             }
         }
-		input.close();
-		serverSocket.close();
 	}
+    public void createButtonPlay() throws IOException {
+        if (JOptionPane.showConfirmDialog(null, "receive", "Salir", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            output = new ObjectOutputStream(user.getOutputStream());
+            output.writeObject(new String("play"));
+        }
+    }
     @Override
     public void upRacket() {
         try {
-            user = new Socket(ipAddres, 9999);
-            ObjectOutputStream output = new ObjectOutputStream(user.getOutputStream());
-            output.writeObject("upRacket");
-            output.close();
-            user.close();
+            output = new ObjectOutputStream(user.getOutputStream());
+            output.writeObject(new String("upRacket"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,11 +90,8 @@ public class ManagerModel implements ContractUser.IModel {
     @Override
     public void downRacket() {
         try {
-            user = new Socket(ipAddres, 9999);
-            ObjectOutputStream output = new ObjectOutputStream(user.getOutputStream());
-            output.writeObject("downRacket");
-            output.close();
-            user.close();
+            output = new ObjectOutputStream(user.getOutputStream());
+            output.writeObject(new String("downRacket"));
         } catch (IOException e) {
             e.printStackTrace();
         }
