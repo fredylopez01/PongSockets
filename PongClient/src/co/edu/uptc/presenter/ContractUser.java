@@ -12,11 +12,13 @@ public interface ContractUser {
         public void setIpAdrres(String ipAddress);
         public void upRacket();
         public void downRacket();
+        public void play();
     }
 
     public interface IView {
         public void setPresenter(IPresenter iPresenter);
         public void run();
+        public void activeButton();
     }
 
     public interface IPresenter {
@@ -29,5 +31,7 @@ public interface ContractUser {
         public void setIpAdrres(String ipAddress);
         public void upRacket();
         public void downRacket();
+        public void activeButton();
+        public void play();
     }
 }

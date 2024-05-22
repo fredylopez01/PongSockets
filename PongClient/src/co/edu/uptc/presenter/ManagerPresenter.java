@@ -29,7 +29,7 @@ public class ManagerPresenter implements ContractUser.IPresenter {
         dashBoard.setPresenter(this);
         model.setPresenter(this);
     }
-
+    
     @Override
     public Element getBall() {
         return model.getBall();
@@ -59,5 +59,12 @@ public class ManagerPresenter implements ContractUser.IPresenter {
     public void setModel(IModel iModel) {
         this.model = iModel;
     }
-
+    @Override
+    public void activeButton() {
+        view.activeButton();
+    }
+    @Override
+    public void play() {
+        model.play();
+    }
 }

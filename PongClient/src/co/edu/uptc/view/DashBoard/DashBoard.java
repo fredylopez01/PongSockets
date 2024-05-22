@@ -2,6 +2,7 @@ package co.edu.uptc.view.DashBoard;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -129,6 +130,12 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
 
     public ContractUser.IPresenter getPresenter() {
         return presenter;
+    }
+    @Override
+    public void activeButton() {
+        if (JOptionPane.showConfirmDialog(null, "receive", "Salir", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            presenter.play();
+        }
     }
 
 }

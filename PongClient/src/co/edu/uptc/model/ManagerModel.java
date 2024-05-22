@@ -6,8 +6,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import javax.swing.JOptionPane;
-
 import co.edu.uptc.pojos.Element;
 import co.edu.uptc.presenter.ContractUser;
 import co.edu.uptc.presenter.ContractUser.IPresenter;
@@ -24,13 +22,13 @@ public class ManagerModel implements ContractUser.IModel {
     @Override
     public void run() {
         conect();
-        receivingThread();
     }
     public void conect(){
         try {
             user = new Socket(ipAddres, 9999);
             output = new ObjectOutputStream(user.getOutputStream());
-            output.writeObject(new String("conectar"));
+            input = new ObjectInputStream(user.getInputStream());
+            receivingThread();
         } catch (UnknownHostException e1) {
             e1.printStackTrace();
         } catch (IOException e1) {
@@ -56,7 +54,6 @@ public class ManagerModel implements ContractUser.IModel {
 	}
 	
 	public void receiveBall() throws IOException, ClassNotFoundException {
-        input = new ObjectInputStream(user.getInputStream());
 		Object receive = input.readObject();
         if(receive instanceof Element){
             Element element = (Element) receive;
@@ -68,20 +65,21 @@ public class ManagerModel implements ContractUser.IModel {
         } else if(receive instanceof String){
             System.out.println(receive);
             if(receive.equals("button")){
-                createButtonPlay();
+                presenter.activeButton();
             }
         }
 	}
-    public void createButtonPlay() throws IOException {
-        if (JOptionPane.showConfirmDialog(null, "receive", "Salir", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            output = new ObjectOutputStream(user.getOutputStream());
+    @Override
+    public void play() {
+        try {
             output.writeObject(new String("play"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     @Override
     public void upRacket() {
         try {
-            output = new ObjectOutputStream(user.getOutputStream());
             output.writeObject(new String("upRacket"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,7 +88,6 @@ public class ManagerModel implements ContractUser.IModel {
     @Override
     public void downRacket() {
         try {
-            output = new ObjectOutputStream(user.getOutputStream());
             output.writeObject(new String("downRacket"));
         } catch (IOException e) {
             e.printStackTrace();
