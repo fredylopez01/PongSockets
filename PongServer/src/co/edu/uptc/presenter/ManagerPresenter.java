@@ -53,20 +53,12 @@ public class ManagerPresenter implements ContractServer.IPresenter {
         return model.getRacketTwo();
     }
     @Override
-    public void upRacketOne() {
-        model.upRacketOne();
+    public int getCurrentScreen() {
+        return model.getCurrentScreen();
     }
     @Override
-    public void downRacketOne() {
-        model.downRacketOne();
-    }
-    @Override
-    public void upRacketTwo() {
-        model.upRacketTwo();
-    }
-    @Override
-    public void downRacketTwo() {
-        model.downRacketTwo();
+    public int getNumberScreens() {
+        return model.getNumberScreens();
     }
     public ContractServer.IModel getModel() {
         return model;

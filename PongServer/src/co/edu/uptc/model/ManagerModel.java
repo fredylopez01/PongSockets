@@ -2,10 +2,7 @@ package co.edu.uptc.model;
 
 import java.awt.Rectangle;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +18,7 @@ public class ManagerModel implements ContractServer.IModel {
     private ManagerRacket playerRacketOne;
     private ManagerRacket playerRacketTwo;
     private ServerSocket serverSocket;
-    private List<Socket> users;
+    private List<Client> users;
     private int ballPosition;
     private boolean isPlaying;
     private boolean isReceiving;
@@ -46,42 +43,6 @@ public class ManagerModel implements ContractServer.IModel {
         threadServerSocket();
     }
 
-    public void threadBall(){
-        Thread threadServer = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (isPlaying) {
-                    managerBall.move();
-                    checkCollision();
-                    updateScreen();
-                    try {
-                        sendBall();
-                        createSendSocket(users.get(0), getRacketOne());
-                        createSendSocket(users.get(users.size()-1), getRacketTwo());
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                        e.printStackTrace();
-                    }
-                    MyUtils.sleep(50);
-                }
-            }
-            
-        });
-        threadServer.start();
-    }
-
-    public void updateScreen(){
-        if(!managerBall.isOnScreen()){
-            if(managerBall.getHorizontalDirection()==DirectionEnum.LEFT){
-                ballPosition--;
-                managerBall.setIsOnScreen(true);
-            } else {
-                ballPosition++;
-                managerBall.setIsOnScreen(true);
-            }
-        }
-    }
-
     public void threadServerSocket(){
         Thread threadServer = new Thread(new Runnable() {
             @Override
@@ -101,49 +62,19 @@ public class ManagerModel implements ContractServer.IModel {
     }
 
     public void receive() throws ClassNotFoundException, IOException{
-        Socket user = serverSocket.accept();
+        Client user = new Client(serverSocket.accept(), this);
         addUser(user);
-        ObjectInputStream input = new ObjectInputStream(user.getInputStream());
-        Object object = input.readObject();
-        if(object instanceof String){
-            switch (object.toString()) {
-                case "conectar":
-                    if(users.size()==1){
-                        createSendSocket(user, "button");
-                    }
-                    break;
-                case "play":
-                    isPlaying = true;
-                    threadBall();
-                    break;
-                case "upRacket":
-                    if(user.getInetAddress().equals(users.get(0).getInetAddress())){
-                        upRacketOne();
-                    } else {
-                        upRacketTwo();
-                    }
-                    break;
-                case "downRacket":
-                    if(user.getInetAddress().equals(users.get(0).getInetAddress())){
-                        downRacketOne();
-                    } else {
-                        downRacketTwo();
-                    }
-                    break;
-                default:
-                    break;
-            }
-        } else if(object instanceof Element){
-            System.out.println("Element");
+        user.listenThread();
+        if(users.size()==1){
+            user.write( new String("button"));
+            user.write(getRacketOne());
         }
-        user.close();
-        input.close();
     }
 
-    public void addUser(Socket user){
+    public void addUser(Client user){
         boolean is = false;
-        for (Socket socket : users) {
-            if(socket.getInetAddress().equals(user.getInetAddress())){
+        for (Client client : users) {
+            if(client.getUser().getInetAddress().equals(user.getUser().getInetAddress())){
                 is=true;
             }
         }
@@ -152,75 +83,106 @@ public class ManagerModel implements ContractServer.IModel {
         }
     }
 
+    public void play(){
+        isReceiving = false;
+        isPlaying = true;
+        threadBall();
+    }
+
+    public void threadBall(){
+        Thread threadServer = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                users.get(users.size()-1).write(getRacketTwo());
+                while (isPlaying) {
+                    managerBall.move();
+                    checkCollision();
+                    updateScreen();
+                    try {
+                        sendBall();
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                        e.printStackTrace();
+                    }
+                    MyUtils.sleep(50);
+                }
+            }            
+        });
+        threadServer.start();
+    }
+
+    public void updateScreen(){
+        if(!managerBall.isOnScreen()){
+            if(managerBall.getHorizontalDirection()==DirectionEnum.LEFT){
+                ballPosition--;
+                managerBall.setIsOnScreen(true);
+            } else {
+                ballPosition++;
+                managerBall.setIsOnScreen(true);
+            }
+        }
+    }
+
     public void sendBall() throws IOException{
         Object sendedObject = null;
-        if(users.size()==1){
+        if(ballPosition < 0){
             ballPosition = 0;
-            sendedObject = this.getBall();
-        } else if(ballPosition < 0){
-            ballPosition = 0;
-            sendedObject = "Perdio";
+            sendedObject = new String("Perdio");
         } else if(ballPosition==users.size()){
             ballPosition = users.size()-1;
-            sendedObject = "Perdio";
+            sendedObject = new String("Perdio");
         } else{
             sendedObject = this.getBall();
         }
         if(users.size()!=0){
-            Socket userBall = users.get(ballPosition);
-            createSendSocket(userBall, sendedObject);
+            Client userBall = users.get(ballPosition);
+            userBall.write(sendedObject);
         }
     }
     public void checkCollision(){
-        Rectangle rectangle1 = new Rectangle(
-            getBall().getX(), 
-            getBall().getY(), 
-            getBall().getWidth(), 
+        Rectangle ballRect = new Rectangle(
+            getBall().getX(),
+            getBall().getY(),
+            getBall().getWidth(),
             getBall().getHeight()
         );
-        Rectangle line1 = new Rectangle(
-            getRacketOne().getX(), 
-            getRacketOne().getY(), 
-            getRacketOne().getWidth(), 
-            getRacketOne().getHeight()
-        );
-        Rectangle line2= new Rectangle(
-            getRacketTwo().getX(), 
-            getRacketTwo().getY(), 
-            getRacketTwo().getWidth(), 
-            getRacketTwo().getHeight()
-        );
-        if(managerBall.getHorizontalDirection()==DirectionEnum.LEFT 
-            && rectangle1.intersects(line1)){
-            managerBall.setHorizontalDirection(DirectionEnum.RIGHT);
-        } else if( managerBall.getHorizontalDirection()==DirectionEnum.RIGHT
-                    && rectangle1.intersects(line2)){
-            managerBall.setHorizontalDirection(DirectionEnum.LEFT);
+        Rectangle racketRect = null;
+        if (managerBall.getHorizontalDirection() == DirectionEnum.LEFT) {
+            racketRect = new Rectangle(
+                getRacketOne().getX(),
+                getRacketOne().getY(),
+                getRacketOne().getWidth(),
+                getRacketOne().getHeight()
+            );
+        } else if (managerBall.getHorizontalDirection() == DirectionEnum.RIGHT) {
+            racketRect = new Rectangle(
+                getRacketTwo().getX()*users.size(),
+                getRacketTwo().getY(),
+                getRacketTwo().getWidth(),
+                getRacketTwo().getHeight()
+            );
+        }
+        if (racketRect != null && ballRect.intersects(racketRect)) {
+           managerBall.opposite();
         }
     }
-
-    public void createSendSocket(Socket socket, Object order) {
-        try{
-            Socket sendedSocket = new Socket(socket.getInetAddress(), 9090);
-            ObjectOutputStream output = new ObjectOutputStream(sendedSocket.getOutputStream());
-            output.writeObject(order);
-            output.close();
-            sendedSocket.close();
-        } catch(IOException e){
-            e.printStackTrace();
+    public void upRacket(String userIp){
+        if(userIp.equals(users.get(0).getUser().getInetAddress().toString())){
+            playerRacketOne.up();
+            users.get(0).write(getRacketOne());
+        } else {
+            playerRacketTwo.up();
+            users.get(users.size()-1).write(getRacketTwo());
         }
     }
-    public void upRacketOne(){
-        playerRacketOne.up();
-    }
-    public void downRacketOne(){
-        playerRacketOne.down();
-    }
-    public void upRacketTwo(){
-        playerRacketTwo.up();
-    }
-    public void downRacketTwo(){
-        playerRacketTwo.down();
+    public void downRacket(String userIp){
+        if(userIp.equals(users.get(0).getUser().getInetAddress().toString())){
+            playerRacketOne.down();
+            users.get(0).write(getRacketOne());
+        } else {
+            playerRacketTwo.down();
+            users.get(users.size()-1).write(getRacketTwo());
+        }
     }
     @Override
     public void setPresenter(IPresenter iPresenter) {
@@ -238,8 +200,31 @@ public class ManagerModel implements ContractServer.IModel {
     public Element getRacketTwo() {
         return playerRacketTwo.getRacket();
     }
+    @Override
+    public int getCurrentScreen() {
+        return ballPosition+1;
+    }
+    @Override
+    public int getNumberScreens() {
+        if(users.size() == 0){
+            return 1;
+        }
+        return users.size();
+    }
     public ContractServer.IPresenter getPresenter() {
         return presenter;
+    }
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+    public void setPlaying(boolean isPlaying) {
+        this.isPlaying = isPlaying;
+    }
+    public boolean isReceiving() {
+        return isReceiving;
+    }
+    public void setReceiving(boolean isReceiving) {
+        this.isReceiving = isReceiving;
     }
     
 }

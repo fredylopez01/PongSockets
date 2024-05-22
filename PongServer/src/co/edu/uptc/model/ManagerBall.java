@@ -80,6 +80,13 @@ public class ManagerBall {
         }
         element.setX(element.getX()+element.getSpeed());
     }
+    public void opposite() {
+        if(horizontalDirection==DirectionEnum.LEFT){
+            horizontalDirection=DirectionEnum.RIGHT;
+        } else {
+            horizontalDirection=DirectionEnum.LEFT;
+        }
+    }
     public boolean isOnScreen(){
         return element.isOnScreen();
     }

@@ -11,10 +11,8 @@ public class ContractServer {
         public Element getBall();
         public Element getRacketOne();
         public Element getRacketTwo();
-        public void upRacketOne();
-        public void downRacketOne();
-        public void upRacketTwo();
-        public void downRacketTwo();
+        public int getCurrentScreen();
+        public int getNumberScreens();
     }
 
     public interface IModel {
@@ -23,10 +21,8 @@ public class ContractServer {
         public Element getBall();
         public Element getRacketOne();
         public Element getRacketTwo();
-        public void upRacketOne();
-        public void downRacketOne();
-        public void upRacketTwo();
-        public void downRacketTwo();
+        public int getCurrentScreen();
+        public int getNumberScreens();
     }
 
     public interface IView {

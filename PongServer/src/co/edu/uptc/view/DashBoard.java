@@ -47,8 +47,10 @@ public class DashBoard extends JFrame implements ContractServer.IView, KeyListen
                     myPanel.setBall(presenter.getBall());
                     myPanel.setRacketOne(presenter.getRacketOne());
                     myPanel.setRacketTwo(presenter.getRacketTwo());
+                    myPanel.setCurrentScreen(presenter.getCurrentScreen());
+                    myPanel.setNumberScreens(presenter.getNumberScreens());
                     myPanel.repaint();
-                    MyUtils.sleep(15);
+                    MyUtils.sleep(20);
                 }
             }
         });
@@ -67,14 +69,14 @@ public class DashBoard extends JFrame implements ContractServer.IView, KeyListen
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        switch (keyCode) {
-            case KeyEvent.VK_W -> presenter.upRacketOne();
-            case KeyEvent.VK_S -> presenter.downRacketOne();
-            case KeyEvent.VK_UP -> presenter.upRacketTwo();
-            case KeyEvent.VK_DOWN -> presenter.downRacketTwo();
-            default -> System.out.println(keyCode);
-        }
+        // int keyCode = e.getKeyCode();
+        // switch (keyCode) {
+        //     case KeyEvent.VK_W -> presenter.upRacketOne();
+        //     case KeyEvent.VK_S -> presenter.downRacketOne();
+        //     case KeyEvent.VK_UP -> presenter.upRacketTwo();
+        //     case KeyEvent.VK_DOWN -> presenter.downRacketTwo();
+        //     default -> System.out.println(keyCode);
+        // }
     }
 
     @Override
