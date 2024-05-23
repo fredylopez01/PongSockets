@@ -1,6 +1,5 @@
 package co.edu.uptc.model;
 
-import java.awt.Rectangle;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ public class ManagerModel implements ContractServer.IModel {
     private int ballPosition;
     private boolean isPlaying;
     private boolean isReceiving;
+    private Collisions collisions;
 
     public ManagerModel(){
         managerBall = new ManagerBall();
@@ -35,6 +35,7 @@ public class ManagerModel implements ContractServer.IModel {
         racketOne = new ManagerRacket(1);
         racketTwo = new ManagerRacket(2);
         // isPlaying = true;
+        // collisions = new Collisions(getBall(), getRacketOne(), getRacketTwo(), getNumberScreens());
         // threadBall();
     }
 
@@ -85,6 +86,7 @@ public class ManagerModel implements ContractServer.IModel {
     public void play(){
         isReceiving = false;
         isPlaying = true;
+        collisions = new Collisions(getBall(), getRacketOne(), getRacketTwo(), getNumberScreens());
         threadBall();
     }
 
@@ -125,9 +127,9 @@ public class ManagerModel implements ContractServer.IModel {
     public void sendBall() throws IOException{
         Object sendedObject = null;
         if(ballPosition < 0){
-            ballPosition = users.size()-1;
+            ballPosition = getNumberScreens()-1;
             sendedObject = new String("Perdio");
-        } else if(ballPosition==users.size()){
+        } else if(ballPosition==getNumberScreens()){
             ballPosition = 0;
             sendedObject = new String("Perdio");
         } else{
@@ -139,29 +141,13 @@ public class ManagerModel implements ContractServer.IModel {
         }
     }
     public void checkCollision(){
-        Rectangle ballRect = new Rectangle(
-            getBall().getX()*getCurrentScreen(),
-            getBall().getY(),
-            getBall().getWidth(),
-            getBall().getHeight()
-        );
-        Rectangle racketRect = null;
+        boolean isCrashed = false;
         if (managerBall.getHorizontalDirection() == DirectionEnum.LEFT) {
-            racketRect = new Rectangle(
-                getRacketOne().getX(),
-                getRacketOne().getY(),
-                getRacketOne().getWidth(),
-                getRacketOne().getHeight()
-            );
-        } else if (managerBall.getHorizontalDirection() == DirectionEnum.RIGHT) {
-            racketRect = new Rectangle(
-                getRacketTwo().getX()*users.size(),
-                getRacketTwo().getY(),
-                getRacketTwo().getWidth(),
-                getRacketTwo().getHeight()
-            );
+            isCrashed = collisions.isCollisionOne(getBall(), getRacketOne(), getCurrentScreen());
+        } else if(managerBall.getHorizontalDirection() == DirectionEnum.RIGHT){
+            isCrashed = collisions.isCollisionTwo(getBall(), getRacketTwo(), getCurrentScreen());
         }
-        if (racketRect != null && ballRect.intersects(racketRect)) {
+        if (isCrashed) {
            managerBall.opposite();
         }
     }
