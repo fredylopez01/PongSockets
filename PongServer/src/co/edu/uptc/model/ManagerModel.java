@@ -125,10 +125,10 @@ public class ManagerModel implements ContractServer.IModel {
     public void sendBall() throws IOException{
         Object sendedObject = null;
         if(ballPosition < 0){
-            ballPosition = 0;
+            ballPosition = users.size()-1;
             sendedObject = new String("Perdio");
         } else if(ballPosition==users.size()){
-            ballPosition = users.size()-1;
+            ballPosition = 0;
             sendedObject = new String("Perdio");
         } else{
             sendedObject = this.getBall();
@@ -140,7 +140,7 @@ public class ManagerModel implements ContractServer.IModel {
     }
     public void checkCollision(){
         Rectangle ballRect = new Rectangle(
-            getBall().getX(),
+            getBall().getX()*getCurrentScreen(),
             getBall().getY(),
             getBall().getWidth(),
             getBall().getHeight()

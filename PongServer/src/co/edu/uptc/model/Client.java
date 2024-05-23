@@ -39,7 +39,7 @@ public class Client {
         Thread listenThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (!user.isClosed()) {
                     listen();
                 }
             }
@@ -50,10 +50,11 @@ public class Client {
     public void listen(){
         try {
             String order = inputStream.readObject().toString();
+            System.out.println(order+ "--" + getIpString());
             switch (order) {
                 case "play" -> game.play();
-                case "upRacket" -> game.upRacket(user.getInetAddress().toString());
-                case "downRacket" -> game.downRacket(user.getInetAddress().toString());
+                case "upRacket" -> game.upRacket(this.getIpString());
+                case "downRacket" -> game.downRacket(this.getIpString());
                 default -> System.out.println(order);
             }
         } catch (SecurityException | IOException | ClassNotFoundException e) {

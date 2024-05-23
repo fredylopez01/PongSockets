@@ -42,7 +42,7 @@ public class ManagerModel implements ContractUser.IModel {
 				while(true) {
 					try {
 						receiveBall();
-						Thread.sleep(50);
+						Thread.sleep(30);
 					} catch (ClassNotFoundException | IOException | InterruptedException e) {
                         System.out.println(e.getMessage());
 						e.printStackTrace();
@@ -66,6 +66,8 @@ public class ManagerModel implements ContractUser.IModel {
             System.out.println(receive);
             if(receive.equals("button")){
                 presenter.activeButton();
+            } else if(receive.equals("Perdio")){
+                // user.close();
             }
         }
 	}
@@ -73,6 +75,7 @@ public class ManagerModel implements ContractUser.IModel {
     public void play() {
         try {
             output.writeObject(new String("play"));
+            output.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,6 +84,7 @@ public class ManagerModel implements ContractUser.IModel {
     public void upRacket() {
         try {
             output.writeObject(new String("upRacket"));
+            output.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,6 +93,7 @@ public class ManagerModel implements ContractUser.IModel {
     public void downRacket() {
         try {
             output.writeObject(new String("downRacket"));
+            output.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
