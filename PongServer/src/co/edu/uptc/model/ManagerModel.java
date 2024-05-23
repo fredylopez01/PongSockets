@@ -8,6 +8,7 @@ import java.util.List;
 import co.edu.uptc.Utils.MyUtils;
 import co.edu.uptc.pojos.DirectionEnum;
 import co.edu.uptc.pojos.Element;
+import co.edu.uptc.pojos.SendedPackage;
 import co.edu.uptc.presenter.ContractServer;
 import co.edu.uptc.presenter.ContractServer.IPresenter;
 
@@ -22,6 +23,7 @@ public class ManagerModel implements ContractServer.IModel {
     private boolean isPlaying;
     private boolean isReceiving;
     private Collisions collisions;
+    private SendedPackage sendedPackage;
 
     public ManagerModel(){
         managerBall = new ManagerBall();
@@ -34,6 +36,7 @@ public class ManagerModel implements ContractServer.IModel {
         isReceiving = true;
         racketOne = new ManagerRacket(1);
         racketTwo = new ManagerRacket(2);
+        sendedPackage = new SendedPackage();
         // isPlaying = true;
         // collisions = new Collisions(getBall(), getRacketOne(), getRacketTwo(), getNumberScreens());
         // threadBall();
@@ -66,8 +69,10 @@ public class ManagerModel implements ContractServer.IModel {
         users.add(user);
         // addUser(user);
         if(users.size()==1){
-            user.write( new String("button"));
-            user.write(getRacketOne());
+            sendedPackage.setButtonPlay(true);
+            sendedPackage.setRacket(getRacketOne());
+            user.write(getSendedPackage());
+            sendedPackage.setButtonPlay(false);
         }
     }
 
@@ -94,7 +99,8 @@ public class ManagerModel implements ContractServer.IModel {
         Thread threadServer = new Thread(new Runnable() {
             @Override
             public void run() {
-                users.get(users.size()-1).write(getRacketTwo());
+                sendedPackage.setRacket(getRacketTwo());
+                users.get(users.size()-1).write(getSendedPackage());
                 while (isPlaying) {
                     managerBall.move();
                     checkCollision();
@@ -125,19 +131,18 @@ public class ManagerModel implements ContractServer.IModel {
     }
 
     public void sendBall() throws IOException{
-        Object sendedObject = null;
         if(ballPosition < 0){
-            ballPosition = getNumberScreens()-1;
-            sendedObject = new String("Perdio");
+            managerBall.opposite();
+            sendedPackage.setGameOver(true);
         } else if(ballPosition==getNumberScreens()){
-            ballPosition = 0;
-            sendedObject = new String("Perdio");
+            managerBall.opposite();
+            sendedPackage.setGameOver(true);
         } else{
-            sendedObject = this.getBall();
+            sendedPackage.setBall(getBall());
         }
         if(users.size()!=0){
             Client userBall = users.get(ballPosition);
-            userBall.write(sendedObject);
+            userBall.write(getSendedPackage());
         }
     }
     public void checkCollision(){
@@ -154,19 +159,23 @@ public class ManagerModel implements ContractServer.IModel {
     public void upRacket(String userIp){
         if(userIp.equals(users.get(0).getIpString())){
             racketOne.up();
-            users.get(0).write(getRacketOne());
+            sendedPackage.setRacket(getRacketOne());
+            users.get(0).write(getSendedPackage());
         } else {
             racketTwo.up();
-            users.get(users.size()-1).write(getRacketTwo());
+            sendedPackage.setRacket(getRacketTwo());
+            users.get(users.size()-1).write(getSendedPackage());
         }
     }
     public void downRacket(String userIp){
         if(userIp.equals(users.get(0).getIpString())){
             racketOne.down();
-            users.get(0).write(getRacketOne());
+            sendedPackage.setRacket(getRacketOne());
+            users.get(0).write(getSendedPackage());
         } else {
             racketTwo.down();
-            users.get(users.size()-1).write(getRacketTwo());
+            sendedPackage.setRacket(getRacketTwo());
+            users.get(users.size()-1).write(getSendedPackage());
         }
     }
     @Override
@@ -195,6 +204,9 @@ public class ManagerModel implements ContractServer.IModel {
             return 1;
         }
         return users.size();
+    }
+    public SendedPackage getSendedPackage(){
+        return sendedPackage;
     }
     public ContractServer.IPresenter getPresenter() {
         return presenter;
