@@ -2,13 +2,14 @@ package co.edu.uptc.view.DashBoard;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import co.edu.uptc.Utils.MyUtils;
 import co.edu.uptc.presenter.ContractUser;
 import co.edu.uptc.presenter.ContractUser.IPresenter;
+import co.edu.uptc.view.DashBoard.utils.JDMessage;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
@@ -19,11 +20,12 @@ import java.awt.event.KeyListener;
 public class DashBoard extends JFrame implements ContractUser.IView, ActionListener, KeyListener {
     private ContractUser.IPresenter presenter;
     private PingPongTable pingPongTable;
-     private LoggingPanel loggingPanel;
+    private LoggingPanel loggingPanel;
     private JPanel cards;
     private CardLayout cardLayout;
     private LoadPanel loadPanel;
     private ImageIcon icon;
+    private JDMessage message;
 
     public DashBoard() {
         this.setLayout(new BorderLayout());
@@ -36,6 +38,10 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
         setSize(500, 400);
         icon = new ImageIcon(getClass().getResource("/co/edu/uptc/view/images/icon.png"));
 		setIconImage(icon.getImage());
+        createPanels();
+        this.addKeyListener(this);
+    }
+    private void createPanels(){
         cards = new JPanel();
         cardLayout = new CardLayout();
         cards.setLayout(cardLayout);
@@ -46,7 +52,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
         cards.add(pingPongTable, "PingPongTable");
         cards.add(loadPanel, "LoadPanel");
         this.add(cards, BorderLayout.CENTER);
-        this.addKeyListener(this);
+        message = new JDMessage(this, this);
     }
 
     @Override
@@ -76,6 +82,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
         switch (comand) {
             case "connect" -> login();
             case "load" -> loadEfect();
+            case "play" -> play();
             default -> System.out.println(comand);
         }
     }
@@ -97,6 +104,10 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
         presenter.start();
         showPanel("PingPongTable");
         threadPainted();
+    }
+    public void play(){
+        message.dispose();
+        presenter.play();
     }
 
     @Override
@@ -133,9 +144,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
     }
     @Override
     public void activeButton() {
-        if (JOptionPane.showConfirmDialog(null, "receive", "Salir", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            presenter.play();
-        }
+        message.setVisible(true);
     }
 
 }
