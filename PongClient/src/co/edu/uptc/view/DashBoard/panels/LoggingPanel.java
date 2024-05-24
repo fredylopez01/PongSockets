@@ -1,4 +1,4 @@
-package co.edu.uptc.view.DashBoard;
+package co.edu.uptc.view.DashBoard.panels;
 
 import java.awt.event.ActionListener;
 import javax.swing.*;

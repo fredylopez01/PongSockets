@@ -1,4 +1,4 @@
-package co.edu.uptc.view.DashBoard;
+package co.edu.uptc.view.DashBoard.panels;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;

@@ -8,6 +8,9 @@ import javax.swing.Timer;
 import co.edu.uptc.Utils.MyUtils;
 import co.edu.uptc.presenter.ContractUser;
 import co.edu.uptc.presenter.ContractUser.IPresenter;
+import co.edu.uptc.view.DashBoard.panels.EndPanel;
+import co.edu.uptc.view.DashBoard.panels.LoadPanel;
+import co.edu.uptc.view.DashBoard.panels.LoggingPanel;
 import co.edu.uptc.view.DashBoard.utils.JDMessage;
 
 import java.awt.BorderLayout;
@@ -26,6 +29,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
     private LoadPanel loadPanel;
     private ImageIcon icon;
     private JDMessage message;
+    private EndPanel endPanel;
 
     public DashBoard() {
         this.setLayout(new BorderLayout());
@@ -48,9 +52,11 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
         pingPongTable = new PingPongTable();
         loggingPanel = new LoggingPanel(this);
         loadPanel = new LoadPanel();
+        endPanel = new EndPanel(this);
         cards.add(loggingPanel, "LoggingPanel");
         cards.add(pingPongTable, "PingPongTable");
         cards.add(loadPanel, "LoadPanel");
+        cards.add(endPanel, "EndPanel");
         this.add(cards, BorderLayout.CENTER);
         message = new JDMessage(this, this);
     }
