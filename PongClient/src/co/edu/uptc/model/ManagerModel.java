@@ -19,6 +19,7 @@ public class ManagerModel implements ContractUser.IModel {
     private Socket user;
     private ObjectOutputStream output;
     private ObjectInputStream input;
+    private int myPosition;
 
     @Override
     public void run() {
@@ -59,31 +60,25 @@ public class ManagerModel implements ContractUser.IModel {
         if(receive instanceof SendedPackage){
             readSendedPackage((SendedPackage)receive);
         }
-        // if(receive instanceof Element){
-        //     Element element = (Element) receive;
-        //     if(element.getType() == 1){
-        //         ball = element;
-        //     } else {
-        //         racket = element;
-        //     }
-        // } else if(receive instanceof String){
-        //     System.out.println(receive);
-        //     if(receive.equals("button")){
-        //         presenter.activeButton();
-        //     } else if(receive.equals("Perdio")){
-        //         // user.close();
-        //     }
-        // }
 	}
     private void readSendedPackage(SendedPackage sendedPackage){
+        if(sendedPackage.getMyPosition() != -1){
+            myPosition = sendedPackage.getMyPosition();
+        }
         if (sendedPackage.isButtonPlay()) {
             presenter.activeButton();
         }
         if(sendedPackage.isGameOver()){
             System.out.println("Game over");
         }
-        ball = sendedPackage.getBall();
-        racket = sendedPackage.getRacket();
+        if(sendedPackage.getBallPosition() == myPosition){
+            ball = sendedPackage.getBall();
+        }
+        if(sendedPackage.getFirstPlayer() == myPosition){
+            racket = sendedPackage.getRacketOne();
+        } else if(sendedPackage.getLastPlayer() == myPosition){
+            racket = sendedPackage.getRacketTwo();
+        }
     }
     @Override
     public void play() {

@@ -67,31 +67,25 @@ public class ManagerModel implements ContractServer.IModel {
     public void acceptClient() throws ClassNotFoundException, IOException{
         Client user = new Client(serverSocket.accept(), this);
         users.add(user);
-        // addUser(user);
         if(users.size()==1){
             sendedPackage.setButtonPlay(true);
-            sendedPackage.setRacket(getRacketOne());
-            user.write(getSendedPackage());
-            sendedPackage.setButtonPlay(false);
+            sendedPackage.setRacketOne(getRacketOne());
+            sendedPackage.setBallPosition(ballPosition);
+            sendedPackage.setFirstPlayer(0);
         }
-    }
-
-    public void addUser(Client user){
-        boolean is = false;
-        for (Client client : users) {
-            if(client.getIpString().equals(user.getIpString())){
-                is=true;
-            }
-        }
-        if(!is){
-            users.add(user);
-        }
+        sendedPackage.setMyPosition(users.size()-1);
+        user.write(sendedPackage);
+        sendedPackage.setButtonPlay(false);
+        sendedPackage.setMyPosition(-1);
     }
 
     public void play(){
         isReceiving = false;
         isPlaying = true;
         collisions = new Collisions(getBall(), getRacketOne(), getRacketTwo(), getNumberScreens());
+        sendedPackage.setLastPlayer(users.size()-1);
+        sendedPackage.setRacketTwo(getRacketTwo());
+        users.get(users.size()-1).write(sendedPackage);
         threadBall();
     }
 
@@ -99,8 +93,6 @@ public class ManagerModel implements ContractServer.IModel {
         Thread threadServer = new Thread(new Runnable() {
             @Override
             public void run() {
-                sendedPackage.setRacket(getRacketTwo());
-                users.get(users.size()-1).write(getSendedPackage());
                 while (isPlaying) {
                     managerBall.move();
                     checkCollision();
@@ -131,18 +123,20 @@ public class ManagerModel implements ContractServer.IModel {
     }
 
     public void sendBall() throws IOException{
+        sendedPackage.setGameOver(false);
         if(ballPosition < 0){
-            managerBall.opposite();
+            ballPosition = getNumberScreens()-1;
             sendedPackage.setGameOver(true);
         } else if(ballPosition==getNumberScreens()){
-            managerBall.opposite();
+            ballPosition = 0;
             sendedPackage.setGameOver(true);
         } else{
             sendedPackage.setBall(getBall());
         }
         if(users.size()!=0){
             Client userBall = users.get(ballPosition);
-            userBall.write(getSendedPackage());
+            sendedPackage.setBallPosition(ballPosition);
+            userBall.write(sendedPackage);
         }
     }
     public void checkCollision(){
@@ -156,27 +150,25 @@ public class ManagerModel implements ContractServer.IModel {
            managerBall.opposite();
         }
     }
-    public void upRacket(String userIp){
-        if(userIp.equals(users.get(0).getIpString())){
+    public void upRacket(Client client){
+        if(client.equals(users.get(0))){
             racketOne.up();
-            sendedPackage.setRacket(getRacketOne());
-            users.get(0).write(getSendedPackage());
-        } else {
+            sendedPackage.setRacketOne(getRacketOne());
+        } else if(client.equals(users.get(getNumberScreens()-1))) {
             racketTwo.up();
-            sendedPackage.setRacket(getRacketTwo());
-            users.get(users.size()-1).write(getSendedPackage());
+            sendedPackage.setRacketTwo(getRacketTwo());
         }
+        client.write(sendedPackage);
     }
-    public void downRacket(String userIp){
-        if(userIp.equals(users.get(0).getIpString())){
+    public void downRacket(Client client){
+        if(client.equals(users.get(0))){
             racketOne.down();
-            sendedPackage.setRacket(getRacketOne());
-            users.get(0).write(getSendedPackage());
-        } else {
+            sendedPackage.setRacketOne(getRacketOne());
+        } else if(client.equals(users.get(getNumberScreens()-1))) {
             racketTwo.down();
-            sendedPackage.setRacket(getRacketTwo());
-            users.get(users.size()-1).write(getSendedPackage());
+            sendedPackage.setRacketTwo(getRacketTwo());
         }
+        client.write(sendedPackage);
     }
     @Override
     public void setPresenter(IPresenter iPresenter) {
@@ -204,9 +196,6 @@ public class ManagerModel implements ContractServer.IModel {
             return 1;
         }
         return users.size();
-    }
-    public SendedPackage getSendedPackage(){
-        return sendedPackage;
     }
     public ContractServer.IPresenter getPresenter() {
         return presenter;

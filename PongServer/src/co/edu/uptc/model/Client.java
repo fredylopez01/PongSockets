@@ -28,8 +28,8 @@ public class Client {
 
     public void write(Object order){
         try {
-            output.writeObject(order);
             output.reset();
+            output.writeObject(order);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,11 +50,10 @@ public class Client {
     public void listen(){
         try {
             String order = inputStream.readObject().toString();
-            System.out.println(order+ "--" + getIpString());
             switch (order) {
                 case "play" -> game.play();
-                case "upRacket" -> game.upRacket(this.getIpString());
-                case "downRacket" -> game.downRacket(this.getIpString());
+                case "upRacket" -> game.upRacket(this);
+                case "downRacket" -> game.downRacket(this);
                 default -> System.out.println(order);
             }
         } catch (SecurityException | IOException | ClassNotFoundException e) {
