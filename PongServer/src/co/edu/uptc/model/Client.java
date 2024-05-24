@@ -26,7 +26,7 @@ public class Client {
         }
     }
 
-    public void write(Object order){
+    public synchronized void write(Object order){
         try {
             output.reset();
             output.writeObject(order);
