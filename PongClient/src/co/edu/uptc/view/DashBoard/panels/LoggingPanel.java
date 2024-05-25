@@ -3,6 +3,7 @@ package co.edu.uptc.view.DashBoard.panels;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+import co.edu.uptc.Utils.Values;
 import co.edu.uptc.view.DashBoard.utils.ShappedButton;
 
 import java.awt.Color;
@@ -28,7 +29,7 @@ public class LoggingPanel extends JPanel{
         addComponents();
     }
     public void paint(Graphics g) {
-        image = new ImageIcon(getClass().getResource("/co/edu/uptc/view/images/backImage.jpeg")).getImage();
+        image = new ImageIcon(getClass().getResource(Values.pathImgLogging)).getImage();
         g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
         setOpaque(false);
         super.paint(g);
@@ -62,7 +63,7 @@ public class LoggingPanel extends JPanel{
         this.add(btnContinue, gbc);
     }
 
-    public void styleButton(){
+    private void styleButton(){
         btnContinue.setUI(new ShappedButton(new Color(0x1FFF00)));
         btnContinue.setForeground(Color.WHITE);
         btnContinue.setContentAreaFilled(false);

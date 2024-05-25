@@ -3,6 +3,9 @@ package co.edu.uptc.view.DashBoard.panels;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import co.edu.uptc.Utils.Values;
+
 import java.awt.Image;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -27,7 +30,7 @@ public class LoadPanel extends JPanel {
     }
 
     public void paint(Graphics g) {
-        background = new ImageIcon(getClass().getResource("/co/edu/uptc/view/images/load.gif")).getImage();
+        background = new ImageIcon(getClass().getResource(Values.pathImgLoad)).getImage();
         g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
         setOpaque(false);
         super.paint(g);

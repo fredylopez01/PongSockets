@@ -7,11 +7,13 @@ public class SendedPackage implements Serializable {
     private Element racketOne;
     private Element racketTwo; 
     private boolean isButtonPlay;
-    private boolean isGameOver;
     private int ballPosition;
     private int firstPlayer;
     private int lastPlayer;
     private int myPosition;
+    private boolean isEndGame;
+    private int loser;
+    private int winner;
     public int getMyPosition() {
         return myPosition;
     }
@@ -42,12 +44,6 @@ public class SendedPackage implements Serializable {
     public void setButtonPlay(boolean isButtonPlay) {
         this.isButtonPlay = isButtonPlay;
     }
-    public boolean isGameOver() {
-        return isGameOver;
-    }
-    public void setGameOver(boolean isGameOver) {
-        this.isGameOver = isGameOver;
-    }
     public int getBallPosition() {
         return ballPosition;
     }
@@ -66,4 +62,23 @@ public class SendedPackage implements Serializable {
     public void setLastPlayer(int lastPlayer) {
         this.lastPlayer = lastPlayer;
     }
+    public int getLoser() {
+        return loser;
+    }
+    public void setLoser(int loser) {
+        this.loser = loser;
+    }
+    public int getWinner() {
+        return winner;
+    }
+    public void setWinner(int winner) {
+        this.winner = winner;
+    }
+    public boolean isEndGame() {
+        return isEndGame;
+    }
+    public void setEndGame(boolean isEndGame) {
+        this.isEndGame = isEndGame;
+    }
+    
 }

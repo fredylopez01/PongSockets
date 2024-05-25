@@ -3,6 +3,7 @@ package co.edu.uptc.view.DashBoard.panels;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+import co.edu.uptc.Utils.Values;
 import co.edu.uptc.view.DashBoard.utils.ShappedButton;
 
 import java.awt.Color;
@@ -20,7 +21,7 @@ public class EndPanel extends JPanel{
     private Image image;
 
     public EndPanel(ActionListener listener) {
-        routeImage = "/co/edu/uptc/view/images/backImage.jpeg";
+        routeImage = Values.pathImgEndGame;
         initComponents(listener);
         addComponents();
     }
@@ -32,17 +33,15 @@ public class EndPanel extends JPanel{
     }
 
     public void gameOver(){
-        routeImage = "/co/edu/uptc/view/images/backImage.jpeg";
+        routeImage = Values.pathImgGameOver;
         repaint();
     }
-    
     public void endGame(){
-        routeImage = "/co/edu/uptc/view/images/backImage.jpeg";
+        routeImage = Values.pathImgEndGame;
         repaint();
     }
-
     public void youWin(){
-        routeImage = "/co/edu/uptc/view/images/backImage.jpeg";
+        routeImage = Values.pathImgYouWin;
         repaint();
     }
 
@@ -62,7 +61,7 @@ public class EndPanel extends JPanel{
         this.add(btnContinue, gbc);
     }
 
-    public void styleButton(){
+    private void styleButton(){
         btnContinue.setUI(new ShappedButton(new Color(0x1FFF00)));
         btnContinue.setForeground(Color.WHITE);
         btnContinue.setContentAreaFilled(false);

@@ -19,8 +19,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-public class DashBoard extends JFrame implements ContractUser.IView, ActionListener, KeyListener {
+public class DashBoard extends JFrame implements ContractUser.IView, ActionListener, KeyListener, WindowListener {
     private ContractUser.IPresenter presenter;
     private PingPongTable pingPongTable;
     private LoggingPanel loggingPanel;
@@ -96,8 +98,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
     private void showPanel(String panelName) {
         cardLayout.show(cards, panelName);
     }
-
-    public void login(){
+    private void login(){
         setIpAdress();
         showPanel("LoadPanel");
         Timer timer = new Timer(3000, this);
@@ -105,22 +106,35 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
         timer.setRepeats(false); 
         timer.start();
     }
-
-    public void loadEfect(){
+    private void loadEfect(){
         presenter.start();
         showPanel("PingPongTable");
         threadPainted();
     }
-    public void play(){
+    private void play(){
         message.dispose();
         presenter.play();
+    }
+    @Override
+    public void gameOver(){
+        endPanel.gameOver();
+        showPanel("EndPanel");
+    }
+    @Override
+    public void endGame(){
+        endPanel.endGame();
+        showPanel("EndPanel");
+    }
+    @Override
+    public void youWin(){
+        endPanel.youWin();
+        showPanel("EndPanel");
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
         
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
@@ -130,7 +144,6 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
             default -> System.out.println(keyCode);
         }
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
         
@@ -152,5 +165,26 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
     public void activeButton() {
         message.setVisible(true);
     }
-
+    @Override
+    public void windowOpened(WindowEvent e) {
+    }
+    @Override
+    public void windowClosing(WindowEvent e) {
+    }
+    @Override
+    public void windowClosed(WindowEvent e) {
+        presenter.disconect();
+    }
+    @Override
+    public void windowIconified(WindowEvent e) {
+    }
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+    }
+    @Override
+    public void windowActivated(WindowEvent e) {
+    }
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+    }
 }

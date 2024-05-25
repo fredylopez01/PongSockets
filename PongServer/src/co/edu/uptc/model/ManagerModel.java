@@ -123,21 +123,23 @@ public class ManagerModel implements ContractServer.IModel {
     }
 
     public void sendBall() throws IOException{
-        sendedPackage.setGameOver(false);
         if(ballPosition < 0){
             ballPosition = getNumberScreens()-1;
-            sendedPackage.setGameOver(true);
+            endGame(0, sendedPackage.getLastPlayer());
         } else if(ballPosition==getNumberScreens()){
             ballPosition = 0;
-            sendedPackage.setGameOver(true);
+            endGame(sendedPackage.getLastPlayer(), 0);
         } else{
             sendedPackage.setBall(getBall());
         }
-        if(users.size()!=0){
-            Client userBall = users.get(ballPosition);
-            sendedPackage.setBallPosition(ballPosition);
-            userBall.write(sendedPackage);
-        }
+        Client userBall = users.get(ballPosition);
+        sendedPackage.setBallPosition(ballPosition);
+        userBall.write(sendedPackage);
+    }
+    public void endGame(int loser, int winner){
+        sendedPackage.setEndGame(true);
+        sendedPackage.setLoser(loser);
+        sendedPackage.setWinner(winner);
     }
     public void checkCollision(){
         boolean isCrashed = false;

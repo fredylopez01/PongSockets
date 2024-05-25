@@ -68,8 +68,14 @@ public class ManagerModel implements ContractUser.IModel {
         if (sendedPackage.isButtonPlay()) {
             presenter.activeButton();
         }
-        if(sendedPackage.isGameOver()){
-            System.out.println("Game over");
+        if(sendedPackage.isEndGame()){
+            if(sendedPackage.getLoser() == myPosition){
+                presenter.gameOver();
+             } else if(sendedPackage.getWinner() == myPosition){
+                 presenter.youWin();
+             } else {
+                presenter.endGame();
+             }
         }
         if(sendedPackage.getBallPosition() == myPosition){
             ball = sendedPackage.getBall();
@@ -110,6 +116,14 @@ public class ManagerModel implements ContractUser.IModel {
     @Override
     public void setPresenter(IPresenter iPresenter) {
         this.presenter = iPresenter;
+    }
+    @Override
+    public void disconect(){
+        try {
+            user.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public ContractUser.IPresenter getPresenter() {
         return presenter;

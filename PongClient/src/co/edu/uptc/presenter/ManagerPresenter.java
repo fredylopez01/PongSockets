@@ -67,4 +67,20 @@ public class ManagerPresenter implements ContractUser.IPresenter {
     public void play() {
         model.play();
     }
+    @Override
+    public void disconect() {
+        model.disconect();
+    }
+    @Override
+    public void gameOver() {
+        view.gameOver();
+    }
+    @Override
+    public void endGame() {
+        view.endGame();
+    }
+    @Override
+    public void youWin() {
+        view.youWin();
+    }
 }
