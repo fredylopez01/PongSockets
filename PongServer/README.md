@@ -1,10 +1,22 @@
 ## Ping Pong Game - SERVER
 
-Servidor de un juego de ping pong entre varios jugadores conectados desde diferentes computadores pero en la misma red.
+### Description
+Server for a ping pong game between several players connected from different computers but on the same network.
 
-## Prerequisitos
+### Requirements
 - Java 17
+- Windows 11 o higher
+- Mac --
 
-## Especificaciones
-Juego desarrollado en java bajo el patrón de diseño de modelo vista presentador (MVP). 
-La parte gráfica está desarrolla con java swing.
+### Specifications
+Game developed in Java under the Model View Presenter (MVP) design pattern. 
+The graphic part is developed with java swing.
+
+### Excecution
+Into the project there is a file .jar with the name: **``PongServer``**. In order to use his jar o rather run it, you just have to open the command terminal inside this folder and write: 
+```
+java –jar PongServer.jar
+``` 
+And the program will start running.
+
+![Vs Code](https://img.shields.io/badge/Vscode-007ACC?style=flat&logo=visualstudiocode&logoColor=white) ![Java](https://img.shields.io/badge/Java-ED8B00?style=flat&logo=openjdk&logoColor=white) ![java 17](https://img.shields.io/badge/Java%20Version-17-green) ![java 17](https://img.shields.io/badge/Windows-11-blue?logo=Windows)

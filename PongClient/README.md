@@ -1,18 +1,18 @@
-## Getting Started
+## PONG CLIENT
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+### Description
 
-## Folder Structure
+This program is part of a ping pong game that uses sockets. This game is multi-player. And this program serves to join a game.
 
-The workspace contains two folders by default, where:
+### Requirements
+- Java 17
+- Windows 11 o higher
+- Mac --
+### Excecution
+Into the project there is a file .jar with the name: **``PongClient``**. In order to use his jar o rather run it, you just have to open the command terminal inside this folder and write: 
+```
+java –jar PongClient.jar
+``` 
+And the program will start running.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+![Vs Code](https://img.shields.io/badge/Vscode-007ACC?style=flat&logo=visualstudiocode&logoColor=white) ![Java](https://img.shields.io/badge/Java-ED8B00?style=flat&logo=openjdk&logoColor=white) ![java 17](https://img.shields.io/badge/Java%20Version-17-green) ![java 17](https://img.shields.io/badge/Windows-11-blue?logo=Windows) 

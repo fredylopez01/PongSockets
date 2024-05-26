@@ -15,7 +15,6 @@ bin/
 .mtj.tmp/
 
 # Paquetes
-*.jar
 *.war
 *.nar
 *.ear
