@@ -52,7 +52,7 @@ public class ManagerModel implements ContractUser.IModel {
 				while(!user.isClosed()) {
 					try {
 						receiveBall();
-						Thread.sleep(30);
+						Thread.sleep(40);
 					} catch (ClassNotFoundException | IOException | InterruptedException e) {
                         System.out.println(e.getMessage());
 						e.printStackTrace();

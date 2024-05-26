@@ -18,6 +18,7 @@ public class ManagerRacket {
         racket.setHeight(Values.racketHeight);
         racket.setType(2);
         racket.setColor(Color.WHITE);
+        racket.setSpeed(Values.racketSpeed);
     }
     public void racketPosition(int player){
         if(player == 1){
@@ -28,13 +29,13 @@ public class ManagerRacket {
         racket.setY(Values.heightWindow/2-racket.getHeight()/2-15);
     }
     public void down(){
-        if(racket.getY()+racket.getWidth()<Values.heightWindow-racket.getHeight()-racket.getHeight()/2+10){
-            racket.setY(racket.getY()+10);
+        if(racket.getY()+racket.getHeight()+racket.getSpeed()<Values.heightWindow-39){
+            racket.setY(racket.getY()+racket.getSpeed());
         }
     }
     public void up(){
         if(racket.getY()>0){
-            racket.setY(racket.getY()-10);
+            racket.setY(racket.getY()-+racket.getSpeed());
         }
     }
     public int getType(){

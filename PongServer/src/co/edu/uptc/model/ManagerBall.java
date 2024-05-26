@@ -19,9 +19,9 @@ public class ManagerBall {
     }
     public void createElement(){
         this.element = new Element();
-        this.element.setWidth(20);
-        this.element.setHeight(20);
-        this.element.setSpeed((int)(Math.random()*(Values.maxSpeedBall-Values.minSpeBall+1)+Values.minSpeBall));
+        this.element.setWidth(Values.lengthBall);
+        this.element.setHeight(Values.lengthBall);
+        this.element.setSpeed((int)(Math.random()*(Values.maxSpeedBall-Values.minSpeedBall+1)+Values.minSpeedBall));
         this.element.setActive(true);
         this.element.setColor(Color.WHITE);
         this.element.setType(1);

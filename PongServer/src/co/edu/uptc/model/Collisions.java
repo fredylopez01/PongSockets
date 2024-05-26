@@ -1,6 +1,8 @@
 package co.edu.uptc.model;
 
 import java.awt.Rectangle;
+
+import co.edu.uptc.Utils.Values;
 import co.edu.uptc.pojos.Element;
 
 public class Collisions {
@@ -31,8 +33,8 @@ public class Collisions {
         );
     }
 
-    public boolean isCollisionOne(Element ballE, Element racket, int currentScreen){
-        ball.setLocation(ballE.getX()*currentScreen, ballE.getY());
+    public boolean isCollisionOne(Element ballE, Element racket, int ballPosition){
+        ball.setLocation((Values.widthWindow*ballPosition)+ballE.getX(), ballE.getY());
         racketOne.setLocation(racket.getX(), racket.getY());
         if (ball.intersects(racketOne)) {
            return true;
@@ -40,9 +42,9 @@ public class Collisions {
         return false;
     }
 
-    public boolean isCollisionTwo(Element ballE, Element racket, int currentScreen){
-        ball.setLocation(ballE.getX()*currentScreen, ballE.getY());
-        racketTwo.setLocation(racket.getX()*numberScreens, racket.getY());
+    public boolean isCollisionTwo(Element ballE, Element racket, int ballPosition){
+        ball.setLocation((Values.widthWindow*ballPosition)+ballE.getX(), ballE.getY());
+        racketTwo.setLocation(Values.widthWindow*(numberScreens-1)+racket.getX(), racket.getY());
         if (ball.intersects(racketTwo)) {
            return true;
         }

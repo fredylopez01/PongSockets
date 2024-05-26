@@ -37,9 +37,6 @@ public class ManagerModel implements ContractServer.IModel {
         racketOne = new ManagerRacket(1);
         racketTwo = new ManagerRacket(2);
         sendedPackage = new SendedPackage();
-        // isPlaying = true;
-        // collisions = new Collisions(getBall(), getRacketOne(), getRacketTwo(), getNumberScreens());
-        // threadBall();
     }
 
     @Override
@@ -147,9 +144,9 @@ public class ManagerModel implements ContractServer.IModel {
     public void checkCollision(){
         boolean isCrashed = false;
         if (managerBall.getHorizontalDirection() == DirectionEnum.LEFT) {
-            isCrashed = collisions.isCollisionOne(getBall(), getRacketOne(), getCurrentScreen());
+            isCrashed = collisions.isCollisionOne(getBall(), getRacketOne(), ballPosition);
         } else if(managerBall.getHorizontalDirection() == DirectionEnum.RIGHT){
-            isCrashed = collisions.isCollisionTwo(getBall(), getRacketTwo(), getCurrentScreen());
+            isCrashed = collisions.isCollisionTwo(getBall(), getRacketTwo(), ballPosition);
         }
         if (isCrashed) {
            managerBall.opposite();
