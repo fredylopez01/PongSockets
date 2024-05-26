@@ -91,6 +91,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
             case "connect" -> login();
             case "load" -> loadEfect();
             case "play" -> play();
+            case "endGame" -> showPanel("LoggingPanel");
             default -> System.out.println(comand);
         }
     }

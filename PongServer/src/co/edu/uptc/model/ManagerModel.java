@@ -93,7 +93,7 @@ public class ManagerModel implements ContractServer.IModel {
         Thread threadServer = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (isPlaying) {
+                while (isPlaying && !sendedPackage.isEndGame()) {
                     managerBall.move();
                     checkCollision();
                     updateScreen();
@@ -131,15 +131,18 @@ public class ManagerModel implements ContractServer.IModel {
             endGame(sendedPackage.getLastPlayer(), 0);
         } else{
             sendedPackage.setBall(getBall());
+            Client userBall = users.get(ballPosition);
+            sendedPackage.setBallPosition(ballPosition);
+            userBall.write(sendedPackage);
         }
-        Client userBall = users.get(ballPosition);
-        sendedPackage.setBallPosition(ballPosition);
-        userBall.write(sendedPackage);
     }
     public void endGame(int loser, int winner){
         sendedPackage.setEndGame(true);
         sendedPackage.setLoser(loser);
         sendedPackage.setWinner(winner);
+        for (Client client : users) {
+            client.write(sendedPackage);
+        }
     }
     public void checkCollision(){
         boolean isCrashed = false;

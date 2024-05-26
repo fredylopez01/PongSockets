@@ -37,11 +37,19 @@ public class ManagerModel implements ContractUser.IModel {
             e1.printStackTrace();
         }
     }
+    public void write(Object object){
+        try {
+            output.writeObject(object);
+            output.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void receivingThread() {
 		Thread receivingThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while(true) {
+				while(!user.isClosed()) {
 					try {
 						receiveBall();
 						Thread.sleep(30);
@@ -69,13 +77,7 @@ public class ManagerModel implements ContractUser.IModel {
             presenter.activeButton();
         }
         if(sendedPackage.isEndGame()){
-            if(sendedPackage.getLoser() == myPosition){
-                presenter.gameOver();
-             } else if(sendedPackage.getWinner() == myPosition){
-                 presenter.youWin();
-             } else {
-                presenter.endGame();
-             }
+            endGame(sendedPackage);
         }
         if(sendedPackage.getBallPosition() == myPosition){
             ball = sendedPackage.getBall();
@@ -86,32 +88,27 @@ public class ManagerModel implements ContractUser.IModel {
             racket = sendedPackage.getRacketTwo();
         }
     }
+    public void endGame(SendedPackage sendedPackage){
+        disconect();
+        if(sendedPackage.getLoser() == myPosition){
+            presenter.gameOver();
+        } else if(sendedPackage.getWinner() == myPosition){
+            presenter.youWin();
+        } else {
+            presenter.endGame();
+        }
+    }
     @Override
     public void play() {
-        try {
-            output.writeObject(new String("play"));
-            output.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        write(new String("play"));
     }
     @Override
     public void upRacket() {
-        try {
-            output.writeObject(new String("upRacket"));
-            output.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        write(new String("upRacket"));
     }
     @Override
     public void downRacket() {
-        try {
-            output.writeObject(new String("downRacket"));
-            output.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        write(new String("downRacket"));
     }
     @Override
     public void setPresenter(IPresenter iPresenter) {
@@ -119,6 +116,7 @@ public class ManagerModel implements ContractUser.IModel {
     }
     @Override
     public void disconect(){
+        write(new String("endGame"));
         try {
             user.close();
         } catch (IOException e) {

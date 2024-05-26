@@ -54,9 +54,17 @@ public class Client {
                 case "play" -> game.play();
                 case "upRacket" -> game.upRacket(this);
                 case "downRacket" -> game.downRacket(this);
+                case "endGame" -> disconect();
                 default -> System.out.println(order);
             }
         } catch (SecurityException | IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    public void disconect(){
+        try {
+            user.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

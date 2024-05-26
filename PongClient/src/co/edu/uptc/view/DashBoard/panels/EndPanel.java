@@ -6,12 +6,12 @@ import javax.swing.*;
 import co.edu.uptc.Utils.Values;
 import co.edu.uptc.view.DashBoard.utils.ShappedButton;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 
@@ -47,22 +47,22 @@ public class EndPanel extends JPanel{
 
     private void initComponents(ActionListener listener) {
         Font font = new Font("Arial", Font.BOLD, 18);
-        btnContinue = new JButton("Conectar");
-        btnContinue.setActionCommand("connect");
+        btnContinue = new JButton("Finalizar");
+        btnContinue.setActionCommand("endGame");
         btnContinue.addActionListener(listener);
         btnContinue.setFont(font);
         styleButton();
     }
 
     private void addComponents() {
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 0, 5, 0);
-        this.add(btnContinue, gbc);
+        this.setLayout(new BorderLayout());
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bottomPanel.add(btnContinue);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
 
     private void styleButton(){
-        btnContinue.setUI(new ShappedButton(new Color(0x1FFF00)));
+        btnContinue.setUI(new ShappedButton(new Color(0x121f40)));
         btnContinue.setForeground(Color.WHITE);
         btnContinue.setContentAreaFilled(false);
         btnContinue.setBorderPainted(false);

@@ -36,11 +36,11 @@ public class ManagerBall {
             default -> changeDirection(DirectionEnum.LEFT, DirectionEnum.DOWN);
         }
     }
-    private void changeDirection(DirectionEnum left, DirectionEnum down) {
-        this.element.setX(10);
-        this.element.setY(13);
-        horizontalDirection = left;
-        verticalDirection = down;
+    private void changeDirection(DirectionEnum horizontal, DirectionEnum vertical) {
+        this.element.setX(Values.widthWindow/2);
+        this.element.setY(Values.heightWindow/2);
+        horizontalDirection = horizontal;
+        verticalDirection = vertical;
     }
     public void move(){
         if(horizontalDirection==DirectionEnum.LEFT){
