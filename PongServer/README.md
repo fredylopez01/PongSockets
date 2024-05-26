@@ -6,7 +6,7 @@ Server for a ping pong game between several players connected from different com
 ### Requirements
 - Java 17
 - Windows 11 o higher
-- Mac --
+- MacOs Monterey
 
 ### Specifications
 Game developed in Java under the Model View Presenter (MVP) design pattern. 
@@ -19,4 +19,4 @@ java –jar PongServer.jar
 ``` 
 And the program will start running.
 
-![Vs Code](https://img.shields.io/badge/Vscode-007ACC?style=flat&logo=visualstudiocode&logoColor=white) ![Java](https://img.shields.io/badge/Java-ED8B00?style=flat&logo=openjdk&logoColor=white) ![java 17](https://img.shields.io/badge/Java%20Version-17-green) ![java 17](https://img.shields.io/badge/Windows-11-blue?logo=Windows)
+![Vs Code](https://img.shields.io/badge/Vscode-007ACC?style=flat&logo=visualstudiocode&logoColor=white) ![Java](https://img.shields.io/badge/Java-ED8B00?style=flat&logo=openjdk&logoColor=white) ![java 17](https://img.shields.io/badge/Java%20Version-17-green) ![MacOs](https://shields.io/badge/MacOS--9cf?logo=Apple&style=social) ![MacOs Monterray](https://img.shields.io/badge/macOS-Monterey-blueviolet) ![java 17](https://img.shields.io/badge/Windows-11-blue?logo=Windows)

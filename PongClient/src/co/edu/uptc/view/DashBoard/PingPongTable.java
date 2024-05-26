@@ -2,6 +2,7 @@ package co.edu.uptc.view.DashBoard;
 
 import javax.swing.*;
 
+import co.edu.uptc.Utils.MyUtils;
 import co.edu.uptc.pojos.Element;
 
 import java.awt.*;
@@ -28,12 +29,20 @@ public class PingPongTable extends JPanel {
 
         if(ball!=null){
             g.setColor(ball.getColor());
-            g.fillOval(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
+            Rectangle rectangle = MyUtils.calculatePositions(ball, this.getBounds());
+            g.fillOval((int)rectangle.getX(), (int)rectangle.getY(), (int)rectangle.getWidth(), (int)rectangle.getHeight());
         }
         if(racket!=null){
             g.setColor(racket.getColor());
-            g.fillRect(racket.getX(), racket.getY(), racket.getWidth(), racket.getHeight());
+            Rectangle rectangle = MyUtils.calculatePositions(racket, this.getBounds());
+            g.fillRect((int)rectangle.getX(), (int)rectangle.getY(), (int)rectangle.getWidth(), (int)rectangle.getHeight());
         }
+    }
+    public void reset(){
+        ball.setX(-100);
+        ball.setY(-100);
+        racket.setX(-100);
+        racket.setY(-100);
     }
     public Element getBall() {
         return ball;

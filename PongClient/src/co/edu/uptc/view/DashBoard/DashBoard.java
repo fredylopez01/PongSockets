@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import co.edu.uptc.Utils.MyUtils;
+import co.edu.uptc.Utils.Values;
 import co.edu.uptc.presenter.ContractUser;
 import co.edu.uptc.presenter.ContractUser.IPresenter;
 import co.edu.uptc.view.DashBoard.panels.EndPanel;
@@ -41,7 +42,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
     }
 
     private void initComponents() {
-        setSize(500, 400);
+        setSize(Values.widthWindow, Values.heightWindow);
         icon = new ImageIcon(getClass().getResource("/co/edu/uptc/view/images/icon.png"));
 		setIconImage(icon.getImage());
         createPanels();
@@ -109,6 +110,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
     }
     private void loadEfect(){
         presenter.start();
+        pingPongTable.reset();
         showPanel("PingPongTable");
         threadPainted();
     }

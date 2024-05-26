@@ -1,8 +1,8 @@
 package co.edu.uptc.Utils;
 
 public class Values {
-    public static int heightWindow = 500;
-    public static int widthWindow = 700;
+    public static int heightWindow = 400;
+    public static int widthWindow = 500;
     public static final int serverPort = 9999;
     public static String pathImgLogging = "/co/edu/uptc/view/images/backImage.jpeg";
     public static String pathImgLoad = "/co/edu/uptc/view/images/load.gif";

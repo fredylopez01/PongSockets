@@ -29,11 +29,9 @@ public class ManagerBall {
     public void direction(){
         int directionR = (int)(Math.random()*3);
         switch (directionR) {
-            case 0 -> changeDirection(DirectionEnum.LEFT, DirectionEnum.UP);
             case 1 -> changeDirection(DirectionEnum.RIGHT, DirectionEnum.UP);
             case 2 -> changeDirection(DirectionEnum.RIGHT, DirectionEnum.DOWN);
-            case 3 -> changeDirection(DirectionEnum.LEFT, DirectionEnum.DOWN);
-            default -> changeDirection(DirectionEnum.LEFT, DirectionEnum.DOWN);
+            default -> changeDirection(DirectionEnum.RIGHT, DirectionEnum.DOWN);
         }
     }
     private void changeDirection(DirectionEnum horizontal, DirectionEnum vertical) {
