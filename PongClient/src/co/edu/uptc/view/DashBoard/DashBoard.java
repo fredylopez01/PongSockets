@@ -47,6 +47,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
 		setIconImage(icon.getImage());
         createPanels();
         this.addKeyListener(this);
+        this.setFocusable(true);
     }
     private void createPanels(){
         cards = new JPanel();

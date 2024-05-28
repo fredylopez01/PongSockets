@@ -69,6 +69,5 @@ public class Collisions {
             directionY = DirectionEnum.DOWN;
             ballE.setSpeedX(ballE.getSpeedX()+2);
         }
-        System.out.println(ballE.getSpeedY());
     }
 }
