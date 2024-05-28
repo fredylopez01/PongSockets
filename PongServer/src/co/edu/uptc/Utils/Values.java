@@ -7,7 +7,7 @@ public class Values {
     public static final int racketWidth = 15;
     public static final int racketHeight = 80;
     public static final int maxSpeedBall = 15;
-    public static final int minSpeedBall = 10;
+    public static final int speedBall = 10;
     public static final int lengthBall = 20;
     public static final int racketSpeed = 15;
 }

@@ -144,9 +144,9 @@ public class ManagerModel implements ContractServer.IModel {
     public void checkCollision(){
         boolean isCrashed = false;
         if (managerBall.getHorizontalDirection() == DirectionEnum.LEFT) {
-            isCrashed = collisions.isCollisionOne(getBall(), getRacketOne(), ballPosition);
+            isCrashed = collisions.isCollisionOne(getBall(), getRacketOne(), ballPosition, managerBall.getVerticalDirection());
         } else if(managerBall.getHorizontalDirection() == DirectionEnum.RIGHT){
-            isCrashed = collisions.isCollisionTwo(getBall(), getRacketTwo(), ballPosition);
+            isCrashed = collisions.isCollisionTwo(getBall(), getRacketTwo(), ballPosition, managerBall.getVerticalDirection());
         }
         if (isCrashed) {
            managerBall.opposite();

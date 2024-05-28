@@ -21,9 +21,10 @@ public class ManagerBall {
         this.element = new Element();
         this.element.setWidth(Values.lengthBall);
         this.element.setHeight(Values.lengthBall);
-        this.element.setSpeed((int)(Math.random()*(Values.maxSpeedBall-Values.minSpeedBall+1)+Values.minSpeedBall));
+        this.element.setSpeedX(Values.speedBall);
+        this.element.setSpeedY(Values.speedBall);
         this.element.setActive(true);
-        this.element.setColor(Color.WHITE);
+        this.element.setColor(new Color(0xfab416));
         this.element.setType(1);
     }
     public void direction(){
@@ -53,30 +54,30 @@ public class ManagerBall {
         }
     }
     public void down(){
-        if(element.getY()+element.getSpeed()>Values.heightWindow-60){
+        if(element.getY()+element.getSpeedY()>Values.heightWindow-60){
             verticalDirection=DirectionEnum.UP;
         }
-        element.setY(element.getY()+element.getSpeed());
+        element.setY(element.getY()+element.getSpeedY());
     }
     public void up(){
-        if(element.getY()-element.getSpeed()<=0){
+        if(element.getY()-element.getSpeedY()<=0){
             verticalDirection=DirectionEnum.DOWN;
         }
-        element.setY(element.getY()-element.getSpeed());
+        element.setY(element.getY()-element.getSpeedY());
     }
     public void left(){
-        if(element.getX()-element.getSpeed()<=0-element.getWidth()){
+        if(element.getX()-element.getSpeedX()<=0-element.getWidth()){
             element.setX(Values.widthWindow);
             this.setIsOnScreen(false);
         }
-        element.setX(element.getX()-element.getSpeed());
+        element.setX(element.getX()-element.getSpeedX());
     }
     public void right(){
-        if(element.getX()+element.getSpeed()>=Values.widthWindow){
+        if(element.getX()+element.getSpeedX()>=Values.widthWindow){
             element.setX(0);
             this.setIsOnScreen(false);
         }
-        element.setX(element.getX()+element.getSpeed());
+        element.setX(element.getX()+element.getSpeedX());
     }
     public void opposite() {
         if(horizontalDirection==DirectionEnum.LEFT){

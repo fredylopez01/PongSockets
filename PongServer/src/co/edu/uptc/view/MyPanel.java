@@ -4,7 +4,6 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import co.edu.uptc.Utils.Values;
 import co.edu.uptc.pojos.Element;
 
 public class MyPanel extends JPanel {
@@ -20,8 +19,8 @@ public class MyPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int y = (Values.heightWindow/2)-(Values.heightWindow/2)/numberScreens;
-        g.fillRect(0, y, Values.widthWindow-16, Values.heightWindow/numberScreens-(39/numberScreens));
+        int y = (this.getHeight()/2)-(this.getHeight()/2)/numberScreens;
+        g.fillRect(0, y, this.getWidth(), this.getHeight()/numberScreens);
         if (ball != null) {
             g.setColor(ball.getColor());
             int xS = 0;
@@ -30,11 +29,11 @@ public class MyPanel extends JPanel {
             } else if (currentScreen > numberScreens){
                 currentScreen = 1;
             }
-            xS = (Values.widthWindow/numberScreens)*(currentScreen-1);
+            xS = (this.getWidth()/numberScreens)*(currentScreen-1);
             g.fillOval(xS+(ball.getX()/numberScreens), y+ball.getY()/numberScreens, ball.getWidth()/numberScreens, ball.getHeight()/numberScreens);            
         }
         for(int i = 0; i<=numberScreens; i++){
-            g.drawLine(((Values.widthWindow-16)/numberScreens)*i, y, ((Values.widthWindow-16)/numberScreens)*i, y+Values.heightWindow/numberScreens-(39/numberScreens));
+            g.drawLine(((this.getWidth())/numberScreens)*i, y, ((this.getWidth())/numberScreens)*i, y+this.getHeight()/numberScreens);
         }
         if (racketOne != null) {
             g.setColor(racketOne.getColor());
