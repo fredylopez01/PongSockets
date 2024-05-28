@@ -17,7 +17,7 @@ public class PingPongTable extends JPanel {
         
         g.setColor(new Color(0x15368b));
         g.fillRect(0, 0, getWidth(), getHeight());
-        
+
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, this.getWidth(), 10);
         g.fillRect(0, this.getHeight()/2, this.getWidth(), 5);
@@ -36,7 +36,7 @@ public class PingPongTable extends JPanel {
         }
     }
     public void reset(){
-        if(ball != null){
+        if(ball != null && racket != null){
             ball.setX(-100);
             ball.setY(-100);
             racket.setX(-100);
