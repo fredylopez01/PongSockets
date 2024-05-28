@@ -9,7 +9,8 @@ public class Element implements Serializable {
     private int width;
     private int height;
     private int type;
-    private int speed;
+    private int speedX;
+    private int speedY;
     private boolean isOnScreen;
     private Color color;
     public int getX() {
@@ -42,11 +43,20 @@ public class Element implements Serializable {
     public void setType(int type) {
         this.type = type;
     }
-    public int getSpeed() {
-        return speed;
+    public int getSpeedX() {
+        return speedX;
     }
-    public void setSpeed(int speed) {
-        this.speed = speed;
+    public void setSpeedX(int speedX) {
+        this.speedX = speedX;
+    }
+    public int getSpeedY() {
+        return speedY;
+    }
+    public void setSpeedY(int speedY) {
+        this.speedY = speedY;
+    }
+    public void setOnScreen(boolean isOnScreen) {
+        this.isOnScreen = isOnScreen;
     }
     public boolean isOnScreen() {
         return isOnScreen;
@@ -60,6 +70,4 @@ public class Element implements Serializable {
     public void setColor(Color color) {
         this.color = color;
     }
-    
-    
 }

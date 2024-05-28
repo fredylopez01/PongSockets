@@ -20,10 +20,10 @@ public class MyUtils {
         int wP = (element.getWidth()*100)/Values.widthWindow;
         int hP = (element.getHeight()*100)/Values.heightWindow;
         return new Rectangle(
-            (int)((xP*window.getWidth())/100), 
-            (int)((yP*window.getHeight())/100),
-            (int)((wP*window.getWidth())/100), 
-            (int)((hP*window.getHeight())/100)
+            (int)((xP*window.getWidth()+16)/100), 
+            (int)((yP*window.getHeight()+39)/100),
+            (int)((wP*window.getWidth()+16)/100), 
+            (int)((hP*window.getHeight()+39)/100)
         );
     }
 }

@@ -39,8 +39,10 @@ public class ManagerModel implements ContractUser.IModel {
     }
     public void write(Object object){
         try {
-            output.writeObject(object);
-            output.reset();
+            if(!user.isClosed()){
+                output.writeObject(object);
+                output.reset();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

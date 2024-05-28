@@ -15,17 +15,14 @@ public class PingPongTable extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        g.setColor(new Color(0x39a5f0));
-        g.fillRect(0, 0, getWidth(), getHeight());
-
         g.setColor(new Color(0x15368b));
-        g.fillRect(0, 30, getWidth(), getHeight()-60);
+        g.fillRect(0, 0, getWidth(), getHeight());
         
         g.setColor(Color.WHITE);
-        g.fillRect(0, 30, this.getWidth(), 10);
+        g.fillRect(0, 0, this.getWidth(), 10);
         g.fillRect(0, this.getHeight()/2, this.getWidth(), 5);
 
-        g.fillRect(0, this.getHeight()-40, this.getWidth(), 10);
+        g.fillRect(0, this.getHeight()-10, this.getWidth(), 10);
 
         if(ball!=null){
             g.setColor(ball.getColor());
@@ -39,10 +36,12 @@ public class PingPongTable extends JPanel {
         }
     }
     public void reset(){
-        ball.setX(-100);
-        ball.setY(-100);
-        racket.setX(-100);
-        racket.setY(-100);
+        if(ball != null){
+            ball.setX(-100);
+            ball.setY(-100);
+            racket.setX(-100);
+            racket.setY(-100);
+        }
     }
     public Element getBall() {
         return ball;
