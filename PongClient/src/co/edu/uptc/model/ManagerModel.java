@@ -113,6 +113,10 @@ public class ManagerModel implements ContractUser.IModel {
         write(new String("downRacket"));
     }
     @Override
+    public void setColor(String txtColor) {
+        write(new String("Color:"+txtColor));
+    }
+    @Override
     public void setPresenter(IPresenter iPresenter) {
         this.presenter = iPresenter;
     }

@@ -1,5 +1,9 @@
 ## Ping Pong Game - SERVER
 
+## Authors
+- Hugo Andres Vergara Sanchez
+- Fredy Oswaldo Lopez Daza
+
 ### Description
 Server for a ping pong game between several players connected from different computers but on the same network.
 

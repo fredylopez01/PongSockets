@@ -12,6 +12,8 @@ import co.edu.uptc.pojos.SendedPackage;
 import co.edu.uptc.presenter.ContractServer;
 import co.edu.uptc.presenter.ContractServer.IPresenter;
 
+import java.awt.Color;
+
 public class ManagerModel implements ContractServer.IModel {
     private ContractServer.IPresenter presenter;
     private ManagerBall managerBall;
@@ -213,6 +215,11 @@ public class ManagerModel implements ContractServer.IModel {
     }
     public void setReceiving(boolean isReceiving) {
         this.isReceiving = isReceiving;
+    }
+
+    public void setColor(String[] rgb) {
+        Color color = new Color(Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2]));
+       managerBall.getElement().setColor(color);
     }
     
 }

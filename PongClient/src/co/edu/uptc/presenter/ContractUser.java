@@ -14,6 +14,7 @@ public interface ContractUser {
         public void downRacket();
         public void play();
         public void disconect();
+        public void setColor(String txtColor);
     }
 
     public interface IView {
@@ -41,5 +42,6 @@ public interface ContractUser {
         public void gameOver();
         public void endGame();
         public void youWin();
+        public void setColor(String txtColor);
     }
 }

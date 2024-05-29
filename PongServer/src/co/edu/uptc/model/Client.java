@@ -50,6 +50,9 @@ public class Client {
     public void listen(){
         try {
             String order = inputStream.readObject().toString();
+            if(order.contains("Color:")){
+                setColor(order);
+            }
             switch (order) {
                 case "play" -> game.play();
                 case "upRacket" -> game.upRacket(this);
@@ -60,6 +63,11 @@ public class Client {
         } catch (SecurityException | IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+    public void setColor(String color){
+        String colorRGB = color.split("Color:")[1];
+        String[] RGB = colorRGB.split(",");
+        game.setColor(RGB);
     }
     public void disconect(){
         try {

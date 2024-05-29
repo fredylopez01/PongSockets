@@ -117,6 +117,7 @@ public class DashBoard extends JFrame implements ContractUser.IView, ActionListe
     }
     private void play(){
         message.dispose();
+        presenter.setColor(message.getTxtColor());
         presenter.play();
     }
     @Override

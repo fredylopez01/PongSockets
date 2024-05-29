@@ -1,5 +1,9 @@
 ## PONG CLIENT
 
+## Authors
+- Hugo Andres Vergara Sanchez
+- Fredy Oswaldo Lopez Daza
+
 ### Description
 
 This program is part of a ping pong game that uses sockets. This game is multi-player. And this program serves to join a game.

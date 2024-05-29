@@ -83,4 +83,8 @@ public class ManagerPresenter implements ContractUser.IPresenter {
     public void youWin() {
         view.youWin();
     }
+    @Override
+    public void setColor(String txtColor) {
+        model.setColor(txtColor);
+    }
 }

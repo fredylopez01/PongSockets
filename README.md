@@ -1,5 +1,9 @@
 ## PING PONG GAME
 
+## Authors
+- Hugo Andres Vergara Sanchez
+- Fredy Oswaldo Lopez Daza
+
 ### Description
 This is a ping pong game, it uses sockets, mainly it's divide in two programs, the first to the server and the second to the client. This project was developed in Java under the Model View Presenter (MVP) design pattern. 
 The graphic part is developed with java swing.

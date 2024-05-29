@@ -13,17 +13,20 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class JDMessage extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private ImageIcon imgMessage;
 	private JLabel lblMessage;
 	private JButton ok;
+    private JLabel lblColor;
+    private JTextField txtColor;
 	
 	public JDMessage(ActionListener listener, JFrame father) {
 		super(father, true);
 		setTitle("Confirmation Message");
-		setSize(350, 170);
+		setSize(400, 300);
 		setLocation(500, 275);
 		getContentPane().setBackground(new Color(0x55ddff));
 		initComponents(listener);
@@ -41,11 +44,21 @@ public class JDMessage extends JDialog {
 		lblMessage.setForeground(new Color(0x230443));
 		gbc.insets = new Insets(3, 0, 15, 0);
 		add(lblMessage, gbc);
+
+		lblColor = new JLabel("Color:");
+		lblColor.setFont(new Font("Sans Serif", Font.PLAIN, 16));
+		gbc.gridy = 2;
+		add(lblColor, gbc);
+
+		txtColor = new JTextField(10);
+		txtColor.setFont(new Font("Sans Serif", Font.PLAIN, 16));
+		gbc.gridy = 3;
+		add(txtColor, gbc);
 		
 		ok = new JButton("Yes");
 		ok.setIconTextGap(5);
 		styleButton(ok, "play", listener, new Insets(2, 25, 2, 25));
-		gbc.gridy = 2;
+		gbc.gridy = 4;
 		add(ok, gbc);
 	}
 	
@@ -69,5 +82,15 @@ public class JDMessage extends JDialog {
 	public void setLblMessage(JLabel lblMessage) {
 		this.lblMessage = lblMessage;
 	}
+
+	public String getTxtColor() {
+		return txtColor.getText();
+	}
+
+	public void setTxtColor(JTextField txtColor) {
+		this.txtColor = txtColor;
+	}
+
+	
 	
 }
