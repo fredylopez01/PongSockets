@@ -17,8 +17,9 @@ public class Client {
         createObjectSteam();
         listenThread();
     }
-    private void createObjectSteam(){
-        try{
+
+    private void createObjectSteam() {
+        try {
             this.output = new ObjectOutputStream(user.getOutputStream());
             this.inputStream = new ObjectInputStream(user.getInputStream());
         } catch (IOException e) {
@@ -26,7 +27,7 @@ public class Client {
         }
     }
 
-    public synchronized void write(Object order){
+    public synchronized void write(Object order) {
         try {
             output.reset();
             output.writeObject(order);
@@ -35,7 +36,7 @@ public class Client {
         }
     }
 
-    public void listenThread(){
+    public void listenThread() {
         Thread listenThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -47,10 +48,10 @@ public class Client {
         listenThread.start();
     }
 
-    public void listen(){
+    public void listen() {
         try {
             String order = inputStream.readObject().toString();
-            if(order.contains("Color:")){
+            if (order.contains("Color:")) {
                 setColor(order);
             }
             switch (order) {
@@ -64,25 +65,38 @@ public class Client {
             e.printStackTrace();
         }
     }
-    public void setColor(String color){
-        String colorRGB = color.split("Color:")[1];
-        String[] RGB = colorRGB.split(",");
+
+    public void setColor(String color) {
+        String[] colorSplit = color.split("Color:");
+        String[] RGB = new String[3];
+        if (colorSplit.length > 1) {
+            String colorRGB = colorSplit[1];
+            RGB = colorRGB.split(",");
+        } else {
+            RGB[0] = "250";
+            RGB[1] = "80";
+            RGB[2] = "22";
+        }
         game.setColor(RGB);
     }
-    public void disconect(){
+
+    public void disconect() {
         try {
             user.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public Socket getUser() {
         return user;
     }
+
     public void setUser(Socket user) {
         this.user = user;
     }
-    public String getIpString(){
+
+    public String getIpString() {
         return user.getInetAddress().toString();
     }
 }
